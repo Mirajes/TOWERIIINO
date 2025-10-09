@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01da9c1ef91c5e745aa3bcc70a13fa88, type: 3}
   m_Name: Warrior
   m_EditorClassIdentifier: 
-  _unitName: 
-  _unitWheatConsume: 0
-  _unitDamage: 0
+  _unitName: Warrior
+  _unitWheatConsume: 3
+  _unitDamage: 3
