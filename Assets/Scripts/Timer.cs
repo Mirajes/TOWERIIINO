@@ -5,7 +5,8 @@ public class Timer
     private float _wheatCollect = 3f;
     private float _wheatEat = 10f;
 
-    private float _enemyRespawn;
+    private float _enemyRespawn = 5f;
+
     private float _RNGMoment = 30f;
 
     private float _timeSurvived = 0f;

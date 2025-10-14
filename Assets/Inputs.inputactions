@@ -1,0 +1,34 @@
+{
+    "name": "Inputs",
+    "maps": [
+        {
+            "name": "PlayerInputs",
+            "id": "4131ee74-7660-47c9-aa22-de2f3feb425b",
+            "actions": [
+                {
+                    "name": "ChangeStatement",
+                    "type": "Button",
+                    "id": "9cbe0dd0-9dae-4dfa-b7b7-bdefb0a7d33b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "71fa2a9c-c12b-4ac3-a84e-b1dac8cd9cfa",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeStatement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

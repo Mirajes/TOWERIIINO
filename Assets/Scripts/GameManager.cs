@@ -1,5 +1,5 @@
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,11 +17,15 @@ public class GameManager : MonoBehaviour
     private int _starterWarriors = 10;
     #endregion
 
+    #region SettlementVar
     private int _wheatCount = 0;
+
+    private bool _isWalking = false;
 
     // LT - LastTime
     private float _LT_WheatCollect;
     private float _LT_WheatAte;
+    #endregion
 
     private void Awake()
     {
@@ -57,6 +61,8 @@ public class GameManager : MonoBehaviour
 
             _LT_WheatAte = _timer.TimeSurvived;
         }
+
+
         // todo
     }
 
@@ -69,5 +75,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /////////////////
+    
+    public void ChangeStatement(InputAction.CallbackContext context)
+    {
+        
+    }
 
 }
