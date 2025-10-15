@@ -13,6 +13,7 @@ public class Timer
 
     public float WheatCollectCD => _wheatCollect;
     public float WheatEatCD => _wheatEat;
+    public float EnemyRespawnCD => _enemyRespawn;
     public float RNGMomentCD => _RNGMoment;
     public float TimeSurvived => _timeSurvived;
 

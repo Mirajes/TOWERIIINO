@@ -8,8 +8,10 @@ public class SOUnit : ScriptableObject
     [SerializeField] private int _unitWheatConsume;
     [SerializeField] private int _unitDamage;
 
+    [SerializeField] private int _unitWheatFarm;
 
     public string UnitName => _unitName;
     public int UnitWheatConsume => _unitWheatConsume;
     public int UnitDamage => _unitDamage;
+    public int UnitWheatFarm => _unitWheatFarm;
 }

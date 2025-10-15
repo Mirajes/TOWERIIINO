@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01da9c1ef91c5e745aa3bcc70a13fa88, type: 3}
-  m_Name: Farmer
+  m_Name: Builder
   m_EditorClassIdentifier: 
-  _unitName: Farmer
-  _unitWheatConsume: 2
-  _unitDamage: 1
-  _unitWheatFarm: 5
+  _unitName: Builder
+  _unitWheatConsume: 3
+  _unitDamage: 2
+  _unitWheatFarm: 2

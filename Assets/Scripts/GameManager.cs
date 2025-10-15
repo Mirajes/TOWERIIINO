@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     private Timer _timer = new Timer();
     private SettlementLife _settlementLife = new SettlementLife();
+    private EnemiesLogic _enemiesLogic = new EnemiesLogic();
 
     [Header("UnitList")]
     #region Units
@@ -19,8 +20,9 @@ public class GameManager : MonoBehaviour
 
     #region SettlementVar
     private int _wheatCount = 0;
-
     private bool _isWalking = false;
+
+    //private int _currentScore = 0;
 
     // LT - LastTime
     private float _LT_WheatCollect;
@@ -43,17 +45,22 @@ public class GameManager : MonoBehaviour
     private void FixedUpdate()
     {
         _timer.RaiseSurvivedTimer();
-        TimerAction();
+        ActionByTimer();
         _settlementLife.Update();
     }
 
-    private void TimerAction()
+    private void ActionByTimer()
     {
-        if (_timer.TimeSurvived - _LT_WheatCollect >= _timer.WheatCollectCD)
+        if (!_isWalking)
         {
-            _wheatCount += _settlementLife.Settlements.Find(x => x.UnitType == _farmer).UnitCount * 1;
-            _LT_WheatCollect = _timer.TimeSurvived;
-            Debug.Log($"pshenitca = {_wheatCount}");
+            if (_timer.TimeSurvived - _LT_WheatCollect >= _timer.WheatCollectCD)
+            {
+                //фулл переписать, чтобы не искать а суммировать кол-во юнитов * их число фарма
+                Unit unit = _settlementLife.Settlements.Find(x => x.UnitType == _farmer);
+                _wheatCount += unit.UnitCount;
+                _LT_WheatCollect = _timer.TimeSurvived;
+                Debug.Log($"pshenitca = {_wheatCount}");
+            }
         }
 
         if (_timer.TimeSurvived - _LT_WheatAte >= _timer.WheatEatCD)

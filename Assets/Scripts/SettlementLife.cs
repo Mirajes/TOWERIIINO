@@ -13,8 +13,6 @@ public class SettlementLife
     private float _timer = 0f;
     private float _hireTimePerUnit = 3f;
 
-    private bool _isWalking = false;
-
     public List<Unit> Settlements => _settlements;
     public int AllUnitCount => _allUnitCount;
 
@@ -61,9 +59,9 @@ public class SettlementLife
         _allUnitCount = allUnits;
     }
 
-    public void SettlementLive()
+    public void SettlementLive(bool isWalking)
     {
-        if (_isWalking)
+        if (isWalking)
         {
             SettlementWalking();
         }
@@ -82,6 +80,4 @@ public class SettlementLife
     {
 
     }
-
-    public void ChangeSettlementState() => _isWalking = !_isWalking;
 }
