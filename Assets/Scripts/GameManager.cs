@@ -1,92 +1,18 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     private Timer _timer = new Timer();
-    private SettlementLife _settlementLife = new SettlementLife();
-    private EnemiesLogic _enemiesLogic = new EnemiesLogic();
+    private SettlementLogic _settlement = new SettlementLogic();
+    
 
-    [Header("UnitList")]
-    #region Units
-    [SerializeField] private SOUnit _farmer;
-    [SerializeField] private SOUnit _warrior;
-    #endregion
-
-    #region StarterUnitsCount
-    private int _starterFarmers = 15;
-    private int _starterWarriors = 10;
-    #endregion
-
-    #region SettlementVar
-    private int _wheatCount = 0;
     private bool _isWalking = false;
-
-    //private int _currentScore = 0;
-
-    // LT - LastTime
-    private float _LT_WheatCollect;
-    private float _LT_WheatAte;
-    #endregion
-
-    private void Awake()
-    {
-        _LT_WheatCollect = _timer.TimeSurvived;
-        _LT_WheatAte = _timer.TimeSurvived;
-    }
-
-    private void Start()
-    {
-        // todo
-        _settlementLife.Initialize(_farmer, _starterFarmers);
-        _settlementLife.Initialize(_warrior, _starterWarriors);
-    }
 
     private void FixedUpdate()
     {
-        _timer.RaiseSurvivedTimer();
-        ActionByTimer();
-        _settlementLife.Update();
+        _timer.RaiseSurvivedTime();
+        _settlement.HereWeGo(_isWalking);
     }
 
-    private void ActionByTimer()
-    {
-        if (!_isWalking)
-        {
-            if (_timer.TimeSurvived - _LT_WheatCollect >= _timer.WheatCollectCD)
-            {
-                //фулл переписать, чтобы не искать а суммировать кол-во юнитов * их число фарма
-                Unit unit = _settlementLife.Settlements.Find(x => x.UnitType == _farmer);
-                _wheatCount += unit.UnitCount;
-                _LT_WheatCollect = _timer.TimeSurvived;
-                Debug.Log($"pshenitca = {_wheatCount}");
-            }
-        }
-
-        if (_timer.TimeSurvived - _LT_WheatAte >= _timer.WheatEatCD)
-        {
-
-            _LT_WheatAte = _timer.TimeSurvived;
-        }
-
-
-        // todo
-    }
-
-    private void isDead()
-    {
-        if (_settlementLife.AllUnitCount <= 0)
-        {
-            Time.timeScale = 0;
-            //EditorApplication.Exit(0);
-        }
-    }
-
-    /////////////////
-    
-    public void ChangeStatement(InputAction.CallbackContext context)
-    {
-        
-    }
 
 }

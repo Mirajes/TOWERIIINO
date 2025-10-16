@@ -2,25 +2,30 @@ using UnityEngine;
 
 public class Timer
 {
-    private float _wheatCollect = 3f;
-    private float _wheatEat = 10f;
+    [SerializeField] private float _gameScale = 1f;
+    [SerializeField] private float _timeSurvived = 0f;
 
-    private float _enemyRespawn = 5f;
+    [SerializeField] private float _wheatCollectCD = 5f;
+    [SerializeField] private float _wheatEatCD = 3f;
+    [SerializeField] private float _unitHireCD = 3f;
 
-    private float _RNGMoment = 30f;
+    [SerializeField] private float _enemyRespawnCD = 5f;
+    [SerializeField] private float _enemySpawnRate = 1f;
 
-    private float _timeSurvived = 0f;
+    [SerializeField] private float _RNG_MomentCD = 60f;
 
-    public float WheatCollectCD => _wheatCollect;
-    public float WheatEatCD => _wheatEat;
-    public float EnemyRespawnCD => _enemyRespawn;
-    public float RNGMomentCD => _RNGMoment;
-    public float TimeSurvived => _timeSurvived;
+    // CD - Cooldown
+    public float GameScale => _gameScale;
+    public float SurvivedTime => _timeSurvived;
+    public float WheatCollectCD => _wheatCollectCD;
+    public float WheatEatCD => _wheatEatCD;
+    public float HireUnitCD => _unitHireCD;
+    public float EnemyRespawnCD => _enemyRespawnCD;
+    public float EnemySpawnRate => _enemySpawnRate;
+    public float RNGMomentCD => _RNG_MomentCD;
 
-
-    public void RaiseSurvivedTimer()
+    public void RaiseSurvivedTime()
     {
-        _timeSurvived += Time.deltaTime;
+        _timeSurvived += Time.deltaTime * _gameScale;
     }
-
 }
