@@ -93,6 +93,9 @@
 
 //}
 
+
+
+
 //using UnityEngine;
 
 //public class EnemiesLogic
@@ -106,6 +109,9 @@
 
 //    }
 //}
+
+
+
 //using System;
 //using System.Collections.Generic;
 //using UnityEngine;
@@ -189,6 +195,9 @@
 
 //    }
 //}
+
+
+
 //using UnityEngine;
 
 //[CreateAssetMenu(fileName = "SOUnit", menuName = "Scriptable Objects/SOUnit")]
@@ -206,6 +215,9 @@
 //    public int UnitDamage => _unitDamage;
 //    public int UnitWheatFarm => _unitWheatFarm;
 //}
+
+
+
 //using System;
 
 //[Serializable]
@@ -233,6 +245,9 @@
 //        _count -= removeCount;
 //    }
 //}
+
+
+
 //using UnityEngine;
 
 //[CreateAssetMenu(fileName = "SOEnemy", menuName = "Scriptable Objects/SOEnemy")]
@@ -247,6 +262,9 @@
 //    // ниже геттер (очень круто)
 //    public string EnemyName => _enemyName;
 //}
+
+
+
 //using UnityEngine;
 
 //public class Timer

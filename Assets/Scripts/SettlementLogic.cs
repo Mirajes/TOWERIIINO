@@ -7,12 +7,13 @@ public class SettlementLogic
 
     private int _allUnitCount = 0;
 
-    private int _wheatCount = 0;
+    private float _wheatCount = 0;
+    private float _wheatMultiplierDefault = 1f;
     private float _wheatMultiplier = 1f;
 
     //private bool _isWalking = false;
 
-    public int WheatCount => _wheatCount;
+    public float WheatCount => _wheatCount;
     public int UnitsCount => _allUnitCount;
 
     // LT - LastTime
@@ -21,12 +22,7 @@ public class SettlementLogic
 
     private void StandingHandler()
     {
-        if (_timer.SurvivedTime - _LT_CollectedWheat >= _timer.WheatCollectCD)
-        {
-            int wheatAmount = CollectFarmWheat();
-            AddWheat(wheatAmount);
-            _LT_CollectedWheat = _timer.SurvivedTime;
-        }
+        CollectWheat();
 
 
     }
@@ -40,14 +36,28 @@ public class SettlementLogic
     {
         if (isWalking)
         {
-
+            _wheatMultiplier = 1.5f;
+            float wheatAmount = _allUnitCount * _wheatMultiplier;
+            SubtractWheat(wheatAmount);
         }
         else
         {
-
+            _wheatMultiplier = _wheatMultiplierDefault;
+            float wheatAmount = _allUnitCount * _wheatMultiplier;
+            SubtractWheat(wheatAmount);
         }
     }
-    private int CollectFarmWheat()
+
+    private void CollectWheat()
+    {
+        if (_timer.SurvivedTime - _LT_CollectedWheat >= _timer.WheatCollectCD)
+        {
+            int wheatAmount = CountFarmWheat();
+            AddWheat(wheatAmount);
+            _LT_CollectedWheat = _timer.SurvivedTime;
+        }
+    }
+    private int CountFarmWheat()
     {
         /* 
           
@@ -58,14 +68,14 @@ public class SettlementLogic
         // цикл по всем юнитам
         return 10;
     }
-    private void AddWheat(int WheatAmount)
+    private void AddWheat(float WheatAmount)
     {
-        _wheatCount += (int) math.round(_wheatCount * _wheatMultiplier);
+        _wheatCount += WheatAmount * _wheatMultiplier;
     }
 
-    private void SubtractWheat(int WheatAmount)
+    private void SubtractWheat(float WheatAmount)
     {
-        _wheatCount -= (int)math.round(_wheatCount * _wheatMultiplier);
+        _wheatCount -= WheatAmount * _wheatMultiplier;
     }
 
 

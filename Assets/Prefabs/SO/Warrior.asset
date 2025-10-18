@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01da9c1ef91c5e745aa3bcc70a13fa88, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a751d34d7de8ae4993c11a712062446, type: 3}
   m_Name: Warrior
   m_EditorClassIdentifier: 
   _unitName: Warrior
-  _unitWheatConsume: 3
+  _wheatPrice: 4
+  _wheatConsumption: 3
+  _wheatFarm: 0
   _unitDamage: 3

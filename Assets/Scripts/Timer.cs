@@ -10,7 +10,6 @@ public class Timer
     [SerializeField] private float _unitHireCD = 3f;
 
     [SerializeField] private float _enemyRespawnCD = 5f;
-    [SerializeField] private float _enemySpawnRate = 1f;
 
     [SerializeField] private float _RNG_MomentCD = 60f;
 
@@ -21,7 +20,6 @@ public class Timer
     public float WheatEatCD => _wheatEatCD;
     public float HireUnitCD => _unitHireCD;
     public float EnemyRespawnCD => _enemyRespawnCD;
-    public float EnemySpawnRate => _enemySpawnRate;
     public float RNGMomentCD => _RNG_MomentCD;
 
     public void RaiseSurvivedTime()
