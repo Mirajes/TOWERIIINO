@@ -569,8 +569,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0e50d01967e6f499602780704cdffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _safeRange: {x: 0, y: 0, z: 0}
-  _dangerousRange: {x: 0, y: 0, z: 0}
+  _player: {fileID: 953799039}
+  _environmentObj:
+  - {fileID: 1214216400523522689, guid: 148642cc470923e40b87e052b31b3744, type: 3}
+  _maxObjects: 100
 --- !u!1 &395034508
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,13 +659,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395034508}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.46454322, y: -0, z: -0, w: 0.8855505}
-  m_LocalPosition: {x: -0.04, y: 9.17, z: -5.83}
+  m_LocalRotation: {x: 0.46174863, y: 0, z: 0, w: 0.8870109}
+  m_LocalPosition: {x: 0, y: 10, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 55.361, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 55, y: 0, z: 0}
 --- !u!114 &395034512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1145,8 +1147,8 @@ GameObject:
   - component: {fileID: 953799037}
   - component: {fileID: 953799036}
   m_Layer: 0
-  m_Name: Village
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
