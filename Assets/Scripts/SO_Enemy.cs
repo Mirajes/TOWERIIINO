@@ -5,6 +5,7 @@ public class SO_Enemy : ScriptableObject
 {
     [SerializeField] private string _enemyName;
     [SerializeField] private int _enemyDamage;
+    [SerializeField] private float _enemySpeed;
 
     //[SerializeField] private GameObject _enemyPrefab;
 

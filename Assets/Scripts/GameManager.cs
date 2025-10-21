@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private PlayerInput _input;
+
     #region Classes
     private Timer _timer = new Timer();
     private SettlementLogic _settlement = new SettlementLogic();
@@ -10,7 +13,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Settlements
-    private bool _isWalking = true;
+    [SerializeField] private bool _isWalking = true;
     private Vector2 _moveDirection = new Vector2(-1, 0);
     private float _playerSpeed = 2f;
 
@@ -85,9 +88,20 @@ public class GameManager : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        // делегат :o
+        _input.actions["ChangeStatement"].performed += ChangeStatement;
+    }
+
     private void Start()
     {
         CreateEnvinronment();
+    }
+
+    private void ChangeStatement(InputAction.CallbackContext context)
+    {
+        _isWalking = !_isWalking;
     }
 
     private void FixedUpdate()
@@ -100,7 +114,7 @@ public class GameManager : MonoBehaviour
             _settlement.EatWheat(_isWalking);
         if (!_isWalking && _timer.SurvivedTime - _LT_CollectedWheat >= _timer.WheatCollectCD)
         {
-            _settlement.CollectWheat();
+            _settlement.CollectWheatRaw();
             _LT_CollectedWheat = _timer.SurvivedTime;
         }
 
@@ -113,5 +127,12 @@ public class GameManager : MonoBehaviour
         }
         if (_isWalking)
             MoveEnvinronment();
+
+
+    }
+
+    private void OnDisable()
+    {
+        _input.actions["ChangeStatement"].performed -= ChangeStatement;
     }
 }

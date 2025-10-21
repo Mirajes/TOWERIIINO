@@ -1,7 +1,11 @@
+using UnityEngine;
+using System.Collections.Generic;
 public class SettlementLogic
 {
-
     private int _allUnitCount = 0;
+    [SerializeField] private List<Unit> _settlements = new List<Unit>();
+
+    private int _unitInOrder = 0;
 
     private float _wheatCount = 0;
     private float _wheatMultiplierDefault = 1f;
@@ -23,18 +27,19 @@ public class SettlementLogic
 
     private int CountFarmWheat()
     {
-        /* 
-          
-         ...
-         
-         */
+        int wheat = 0;
 
-        // цикл по всем юнитам
-        return 10;
+        foreach (Unit unit in _settlements)
+        {
+            wheat += unit.UnitCount * unit.UnitType.UnitWheatFarm;
+        }
+
+        return wheat;
     }
     private void AddWheat(float WheatAmount)
     {
         _wheatCount += WheatAmount * _wheatMultiplier;
+        Debug.Log(_wheatCount);
     }
 
     private void SubtractWheat(float WheatAmount)
@@ -66,10 +71,12 @@ public class SettlementLogic
         }
     }
 
-    public void CollectWheat()
+    public void CollectWheatRaw()
     {
         int wheatAmount = CountFarmWheat();
         AddWheat(wheatAmount);
     }
+
+    
 }
 

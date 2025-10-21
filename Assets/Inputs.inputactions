@@ -20,7 +20,7 @@
                     "name": "",
                     "id": "71fa2a9c-c12b-4ac3-a84e-b1dac8cd9cfa",
                     "path": "<Keyboard>/space",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "ChangeStatement",
