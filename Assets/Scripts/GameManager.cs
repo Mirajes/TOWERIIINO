@@ -83,6 +83,18 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region Enemy
+    private List<GameObject> _enemyList = new List<GameObject>();
+    private List<GameObject> _spawnedEnemies = new List<GameObject>();
+
+    private float _enemySpawnRate = 1f;
+
+    private void SpawnEnemy()
+    {
+
+    }
+    #endregion
+
     private void Awake()
     {
 

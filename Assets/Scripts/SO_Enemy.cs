@@ -11,4 +11,5 @@ public class SO_Enemy : ScriptableObject
 
     public string EnemyName => _enemyName;
     public int EnemyDamage => _enemyDamage;
+    public float EnemySpeed => _enemySpeed;
 }
