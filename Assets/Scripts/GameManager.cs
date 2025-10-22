@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -28,6 +29,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> _environmentObj = new List<GameObject>();
     [SerializeField] private int _maxObjects = 15;
 
+    [SerializeField] private Transform _envFolder;
+
     private float _LT_CheckedObj = 0f;
     private List<GameObject> _spawnedObjects = new List<GameObject>();
 
@@ -42,7 +45,7 @@ public class GameManager : MonoBehaviour
         int objIndex = _environment.RandomIndex(_environmentObj);
         Vector3 spawnPosition = _environment.GetRandomSpawnPosition(_player.transform);
 
-        GameObject newObject = Instantiate(_environmentObj[objIndex], spawnPosition, Quaternion.identity);
+        GameObject newObject = Instantiate(_environmentObj[objIndex], spawnPosition, Quaternion.identity, _envFolder);
         _spawnedObjects.Add(newObject);
     }
 
@@ -84,14 +87,22 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Enemy
-    private List<GameObject> _enemyList = new List<GameObject>();
-    private List<GameObject> _spawnedEnemies = new List<GameObject>();
+    [SerializeField] private List<Enemy> _enemyList = new List<Enemy>();
+    private List<Enemy> _spawnedEnemies = new List<Enemy>();
+
+    [SerializeField] private Transform _enemyFolder;
 
     private float _enemySpawnRate = 1f;
 
     private void SpawnEnemy()
     {
+        Vector2 randomSpawn = Random.insideUnitCircle;
+        int rndIndex = Random.Range(0, _enemyList.Count);
 
+        Enemy enemy = Instantiate(_enemyList[rndIndex], randomSpawn, Quaternion.identity, _enemyFolder);
+        enemy.Init(_player);
+
+        _spawnedEnemies.Add(enemy);
     }
     #endregion
 
@@ -109,6 +120,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         CreateEnvinronment();
+        StartCoroutine(EnemySpawner(10));
     }
 
     private void ChangeStatement(InputAction.CallbackContext context)
@@ -130,6 +142,7 @@ public class GameManager : MonoBehaviour
             _LT_CollectedWheat = _timer.SurvivedTime;
         }
 
+        #region EnvironmentUpdate
         // Env
         if (_timer.SurvivedTime - _LT_CheckedObj >= _timer.RespawnCheckIntervalCD)
         {
@@ -139,6 +152,8 @@ public class GameManager : MonoBehaviour
         }
         if (_isWalking)
             MoveEnvinronment();
+        #endregion
+
 
 
     }
@@ -147,4 +162,18 @@ public class GameManager : MonoBehaviour
     {
         _input.actions["ChangeStatement"].performed -= ChangeStatement;
     }
+
+    #region Coroutines
+    private IEnumerator EnemySpawner(int enemyCount)
+    {
+        int currentEnemies = 0;
+        while (currentEnemies < enemyCount)
+        {
+            currentEnemies += 1;
+            SpawnEnemy();
+            yield return new WaitForSeconds(_enemySpawnRate);
+        }
+
+    }
+    #endregion
 }

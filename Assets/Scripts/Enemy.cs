@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private Transform _player;
+     private Transform _player;
     [SerializeField] private SO_Enemy _data;
 
     private int _enemyHealth;
 
-    public void Init(Transform player, SO_Enemy data)
+    public void Init(Transform player)
     {
         _player = player;
-        _data = data;
     }
 
     private void FixedUpdate()
@@ -18,6 +17,9 @@ public class Enemy : MonoBehaviour
         if (IsEnemyAlive())
         {
             MoveEnemy();
+        } else
+        {
+            Destroy(this);
         }
     }
 
@@ -30,6 +32,12 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject.tag == "Player")
+        {
+            /*
+             ***
+             */
+            Destroy(this);
+        }
     }
 }

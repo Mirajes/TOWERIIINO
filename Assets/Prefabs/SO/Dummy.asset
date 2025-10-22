@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dd76f19f85783c429ddef8400a8113f, type: 3}
   m_Name: Dummy
   m_EditorClassIdentifier: 
-  _enemyName: 
-  _enemyDamage: 0
-  _enemySpeed: 0
+  _enemyName: Dummy
+  _enemyDamage: 1
+  _enemySpeed: 1
+  _enemyRewardGold: 0
