@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private PlayerInput _input;
+    //private float _score
 
     #region Classes
     private Timer _timer = new Timer();
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
     // LT - LastTime
     private float _LT_CollectedWheat = 0f;
     private float _LT_AteWheat = 0f;
+
     #endregion
 
     #region Envinronment
@@ -92,14 +94,23 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Transform _enemyFolder;
 
+    [SerializeField] private Transform _safeZone;
+    [SerializeField] private Transform _dangerZone;
     private float _enemySpawnRate = 1f;
 
     private void SpawnEnemy()
     {
-        Vector2 randomSpawn = Random.insideUnitCircle;
-        int rndIndex = Random.Range(0, _enemyList.Count);
+        #region EnemyPosition
+        Vector2 randomDirection = Random.insideUnitCircle.normalized;
+        float randomDistance = Random.Range(_safeZone.localScale.x, _dangerZone.localScale.x);
 
-        Enemy enemy = Instantiate(_enemyList[rndIndex], randomSpawn, Quaternion.identity, _enemyFolder);
+        Vector3 spawnPosition = _player.transform.position + new Vector3(
+            randomDirection.x, 0, randomDirection.y) * randomDistance;
+
+        int rndIndex = Random.Range(0, _enemyList.Count);
+        #endregion
+
+        Enemy enemy = Instantiate(_enemyList[rndIndex], spawnPosition, Quaternion.identity, _enemyFolder);
         enemy.Init(_player);
 
         _spawnedEnemies.Add(enemy);
@@ -132,7 +143,7 @@ public class GameManager : MonoBehaviour
     {
         _timer.RaiseSurvivedTime();
 
-        // Settlements 
+        #region Settlements
         _settlement.HereWeGo(_isWalking);
         if (_timer.SurvivedTime - _LT_AteWheat >= _timer.WheatEatCD)
             _settlement.EatWheat(_isWalking);
@@ -141,6 +152,7 @@ public class GameManager : MonoBehaviour
             _settlement.CollectWheatRaw();
             _LT_CollectedWheat = _timer.SurvivedTime;
         }
+        #endregion
 
         #region EnvironmentUpdate
         // Env

@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
             MoveEnemy();
         } else
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 
@@ -30,14 +30,15 @@ public class Enemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, _player.position, _data.EnemySpeed * Time.deltaTime);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    // этот бред работает только с RigidBody
+    private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             /*
              ***
              */
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }

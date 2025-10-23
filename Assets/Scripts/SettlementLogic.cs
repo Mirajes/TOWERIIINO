@@ -3,17 +3,20 @@ using System.Collections.Generic;
 public class SettlementLogic
 {
     private int _allUnitCount = 0;
-    [SerializeField] private List<Unit> _settlements = new List<Unit>();
-
-    private int _unitInOrder = 0;
+    private List<Unit> _settlements = new List<Unit>();
 
     private float _wheatCount = 0;
     private float _wheatMultiplierDefault = 1f;
     private float _wheatMultiplier = 1f;
 
-    public float WheatCount => _wheatCount;
-    public int UnitsCount => _allUnitCount;
+    private float _goldValue = 0f;
 
+    private int _unitInOrder = 0;
+
+    public float WheatCount => _wheatCount;
+    public int AllUnitsCount => _allUnitCount;
+
+    #region Movement
     private void StandingHandler()
     {
 
@@ -25,7 +28,18 @@ public class SettlementLogic
 
     }
 
-    private int CountFarmWheat()
+    public void HereWeGo(bool isWalking)
+    {
+        if (isWalking)
+            MovingHandler();
+        else
+            StandingHandler();
+    }
+    #endregion
+
+    #region Wheat
+
+    private int CountRawFarmWheat()
     {
         int wheat = 0;
 
@@ -36,6 +50,13 @@ public class SettlementLogic
 
         return wheat;
     }
+
+    public void CollectWheatRaw()
+    {
+        int wheatAmount = CountRawFarmWheat();
+        AddWheat(wheatAmount);
+    }
+
     private void AddWheat(float WheatAmount)
     {
         _wheatCount += WheatAmount * _wheatMultiplier;
@@ -47,13 +68,6 @@ public class SettlementLogic
         _wheatCount -= WheatAmount * _wheatMultiplier;
     }
 
-    public void HereWeGo(bool isWalking)
-    {
-        if (isWalking)
-            MovingHandler();
-        else
-            StandingHandler();
-    }
 
     public void EatWheat(bool isWalking)
     {
@@ -71,12 +85,26 @@ public class SettlementLogic
         }
     }
 
-    public void CollectWheatRaw()
+
+    #endregion
+
+    #region Hiring
+    public void HireUnit(SO_Unit so_unit)
     {
-        int wheatAmount = CountFarmWheat();
-        AddWheat(wheatAmount);
+        if (_wheatCount >= so_unit.WheatPrice)
+        {
+
+        }
     }
 
-    
+    private void CountAllUnits()
+    {
+
+    }
+    #endregion
+
+    #region Builder
+
+    #endregion
 }
 
