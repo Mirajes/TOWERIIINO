@@ -93,7 +93,7 @@ public class SettlementLogic
     {
         if (_wheatCount >= so_unit.WheatPrice)
         {
-
+            //if (_settlements.Contains(x => x.UnitType == so_unit))
         }
     }
 
