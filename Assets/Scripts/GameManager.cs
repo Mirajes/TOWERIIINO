@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private Timer _timer = new Timer();
     private SettlementLogic _settlement = new SettlementLogic();
     private Environment _environment = new Environment();
+    private UI _UI = new UI();
     #endregion
 
     #region Settlements
@@ -28,10 +29,12 @@ public class GameManager : MonoBehaviour
     #region Envinronment
     [Header("Envinronment Settings")]
     [SerializeField] private Transform _player;
-    [SerializeField] private List<GameObject> _environmentObj = new List<GameObject>();
+    [SerializeField] private List<GameObject> _environmentObjs = new List<GameObject>();
     [SerializeField] private int _maxObjects = 15;
+    [SerializeField] private float _despawnRadius = 30f;
 
     [SerializeField] private Transform _envFolder;
+    [SerializeField] private Transform _envSpawnPlace;
 
     private float _LT_CheckedObj = 0f;
     private List<GameObject> _spawnedObjects = new List<GameObject>();
@@ -44,10 +47,10 @@ public class GameManager : MonoBehaviour
 
     private void SpawnObject()
     {
-        int objIndex = _environment.RandomIndex(_environmentObj);
+        int objIndex = _environment.RandomIndex(_environmentObjs);
         Vector3 spawnPosition = _environment.GetRandomSpawnPosition(_player.transform);
 
-        GameObject newObject = Instantiate(_environmentObj[objIndex], spawnPosition, Quaternion.identity, _envFolder);
+        GameObject newObject = Instantiate(_environmentObjs[objIndex], spawnPosition, Quaternion.identity, _envFolder);
         _spawnedObjects.Add(newObject);
     }
 
@@ -117,9 +120,12 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region BuyManager
+    #endregion
+
     private void Awake()
     {
-
+        _environment.Init(_despawnRadius, _envSpawnPlace);
     }
 
     private void OnEnable()
@@ -145,6 +151,7 @@ public class GameManager : MonoBehaviour
 
         #region Settlements
         _settlement.HereWeGo(_isWalking);
+        // кушать через корутину нужно чтобы нельзя было прожить по кд проблел для получения пшеницы
         if (_timer.SurvivedTime - _LT_AteWheat >= _timer.WheatEatCD)
             _settlement.EatWheat(_isWalking);
         if (!_isWalking && _timer.SurvivedTime - _LT_CollectedWheat >= _timer.WheatCollectCD)

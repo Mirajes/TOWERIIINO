@@ -3,16 +3,23 @@ using UnityEngine;
 
 public class Environment
 {
-    //private float _nonSpawnRadius = 5f; // - how
-    private float spawnRadius = 50f;
-    private float _despawnRadius = 50f;
+    private float _despawnRadius;
+    private Transform _envObject;
+
+    public void Init(float DespawnRadius ,Transform EnvObject)
+    {
+        _despawnRadius = DespawnRadius;
+        _envObject = EnvObject;
+    }
 
     public int RandomIndex(List<GameObject> objList) => Random.Range(0, objList.Count);
 
     public Vector3 GetRandomSpawnPosition(Transform player)
     {
-        Vector2 randomCircle = Random.insideUnitCircle * spawnRadius;
-        return new Vector3(randomCircle.x + player.transform.position.x, player.transform.position.y, randomCircle.y + player.transform.position.z);
+        Vector2 randomPoint = new Vector2(Random.Range(-_envObject.localScale.x, _envObject.localScale.x) / 2, Random.Range(-_envObject.localScale.z, _envObject.localScale.z) / 2);
+        Vector3 randomPosition = new Vector3(_envObject.transform.position.x + randomPoint.x, _envObject.transform.position.y, _envObject.position.z + randomPoint.y);
+        
+        return randomPosition;
     }
 
     public bool CheckDistance(Transform player, Transform obj)
