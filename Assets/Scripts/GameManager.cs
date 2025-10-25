@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,10 +20,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool _isWalking = true;
     private Vector2 _moveDirection = new Vector2(-1, 0);
     private float _playerSpeed = 2f;
+    #region Units
+    [Header("UnitList")]
+    [SerializeField] private SO_Unit _farmer;
+    [SerializeField] private int _starterFarmers;
+    [SerializeField] private SO_Unit _warrior;
+    [SerializeField] private int _starterWarriors;
+    [SerializeField] private SO_Unit _builder;
+    [SerializeField] private int _starterBuilders;
+    #endregion
 
     // LT - LastTime
     private float _LT_CollectedWheat = 0f;
     private float _LT_AteWheat = 0f;
+    private float _LT_UnitHired = 0f;
 
     #endregion
 
@@ -32,7 +43,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> _environmentObjs = new List<GameObject>();
     [SerializeField] private int _maxObjects = 15;
     [SerializeField] private float _despawnRadius = 30f;
-
     [SerializeField] private Transform _envFolder;
     [SerializeField] private Transform _envSpawnPlace;
 
@@ -123,6 +133,19 @@ public class GameManager : MonoBehaviour
     #region BuyManager
     #endregion
 
+    #region UI
+    [Header("UI")]
+    [SerializeField] private TMP_Text _wheatLabel;
+
+    private float _UI_CD = 1f;
+    private float _LT_UIUpdate = 0f;
+
+    private void UpdateUI()
+    {
+        _wheatLabel.text =  _settlement.WheatCount.ToString();
+    }
+    #endregion
+
     private void Awake()
     {
         _environment.Init(_despawnRadius, _envSpawnPlace);
@@ -138,6 +161,8 @@ public class GameManager : MonoBehaviour
     {
         CreateEnvinronment();
         StartCoroutine(EnemySpawner(10));
+        _settlement.Init(_farmer, _starterFarmers);
+        _settlement.Init(_warrior, _starterWarriors);
     }
 
     private void ChangeStatement(InputAction.CallbackContext context)
@@ -153,11 +178,21 @@ public class GameManager : MonoBehaviour
         _settlement.HereWeGo(_isWalking);
         // кушать через корутину нужно чтобы нельзя было прожить по кд проблел для получения пшеницы
         if (_timer.SurvivedTime - _LT_AteWheat >= _timer.WheatEatCD)
+        {
+            _LT_AteWheat = _timer.SurvivedTime;
             _settlement.EatWheat(_isWalking);
+        }
+
         if (!_isWalking && _timer.SurvivedTime - _LT_CollectedWheat >= _timer.WheatCollectCD)
         {
-            _settlement.CollectWheatRaw();
             _LT_CollectedWheat = _timer.SurvivedTime;
+            _settlement.CollectWheatRaw();
+        }
+        // coroutine
+        if (_timer.SurvivedTime - _LT_UnitHired >= _LT_UnitHired)
+        {
+            _LT_UnitHired = _timer.SurvivedTime;
+            _settlement.UnitOrderUpdate();
         }
         #endregion
 
@@ -173,7 +208,13 @@ public class GameManager : MonoBehaviour
             MoveEnvinronment();
         #endregion
 
-
+        #region UI
+        if (_timer.SurvivedTime - _LT_UIUpdate >= _UI_CD)
+        {
+            _LT_UIUpdate = _timer.SurvivedTime;
+            UpdateUI();
+        }
+        #endregion
 
     }
 

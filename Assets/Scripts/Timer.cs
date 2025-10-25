@@ -1,3 +1,4 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class Timer
@@ -8,7 +9,7 @@ public class Timer
     [SerializeField] private float _respawnCheckInterval = 2f;
 
     [SerializeField] private float _wheatCollectCD = 5f;
-    [SerializeField] private float _wheatEatCD = 3f;
+    [SerializeField] private float _wheatEatCD = 4f;
     [SerializeField] private float _unitHireCD = 3f;
 
     [SerializeField] private float _enemyRespawnCD = 5f;
