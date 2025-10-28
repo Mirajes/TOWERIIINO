@@ -131,18 +131,31 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region BuyManager
+
+    public void BuyFarmer() => _settlement.HireUnit(_farmer);
+    public void BuyWarrior() => _settlement.HireUnit(_warrior);
+    public void BuyBuiler() => _settlement.HireUnit(_builder);
+
     #endregion
 
     #region UI
     [Header("UI")]
+    [SerializeField] private TMP_Text _goldLabel;
     [SerializeField] private TMP_Text _wheatLabel;
+    [SerializeField] private TMP_Text _farmerLabel;
+    [SerializeField] private TMP_Text _warriorLabel;
+    [SerializeField] private TMP_Text _builderLabel;
 
-    private float _UI_CD = 1f;
+    private float _UI_CD = 0.2f;
     private float _LT_UIUpdate = 0f;
 
     private void UpdateUI()
     {
+        _goldLabel.text = _settlement.GoldValue.ToString();
         _wheatLabel.text =  _settlement.WheatCount.ToString();
+        _farmerLabel.text = _settlement.FindUnitCount(_farmer).ToString();
+        _warriorLabel.text = _settlement.FindUnitCount(_warrior).ToString();
+        _builderLabel.text = _settlement.FindUnitCount(_builder).ToString();
     }
     #endregion
 
@@ -160,9 +173,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         CreateEnvinronment();
-        StartCoroutine(EnemySpawner(10));
+        StartCoroutine(EnemySpawner());
         _settlement.Init(_farmer, _starterFarmers);
         _settlement.Init(_warrior, _starterWarriors);
+        _settlement.Init(_builder, _starterBuilders);
     }
 
     private void ChangeStatement(InputAction.CallbackContext context)
@@ -224,15 +238,11 @@ public class GameManager : MonoBehaviour
     }
 
     #region Coroutines
-    private IEnumerator EnemySpawner(int enemyCount)
+    private IEnumerator EnemySpawner()
     {
-        int currentEnemies = 0;
-        while (currentEnemies < enemyCount)
-        {
-            currentEnemies += 1;
-            SpawnEnemy();
-            yield return new WaitForSeconds(_enemySpawnRate);
-        }
+        SpawnEnemy();
+        yield return new WaitForSeconds(_enemySpawnRate);
+
 
     }
     #endregion

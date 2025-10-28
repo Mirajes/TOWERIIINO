@@ -15,4 +15,4 @@ MonoBehaviour:
   _enemyName: Dummy
   _enemyDamage: 1
   _enemySpeed: 3
-  _enemyRewardGold: 0
+  _enemyRewardGold: 10

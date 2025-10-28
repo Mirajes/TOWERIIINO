@@ -10,7 +10,7 @@ public class Timer
 
     [SerializeField] private float _wheatCollectCD = 5f;
     [SerializeField] private float _wheatEatCD = 4f;
-    [SerializeField] private float _unitHireCD = 3f;
+    [SerializeField] private float _unitHireCD = 2f;
 
     [SerializeField] private float _enemyRespawnCD = 5f;
 

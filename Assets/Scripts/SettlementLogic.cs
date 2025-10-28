@@ -8,14 +8,16 @@ public class SettlementLogic
 
     private List<SO_Unit> _unitOrder = new List<SO_Unit>();
 
-    private float _wheatCount = 0;
+    private float _wheatCount = 150;
     private float _wheatMultiplierDefault = 1f;
     private float _wheatMultiplier = 1.2f;
 
     private float _goldValue = 0f;
 
+    public List<Unit> SettlementsList => _settlements;
     public float WheatCount => _wheatCount;
     public int AllUnitsCount => _allUnitCount;
+    public float GoldValue => _goldValue;
 
     #region Movement
     private void StandingHandler()
@@ -107,6 +109,10 @@ public class SettlementLogic
         } 
         // else -- сказать юй "у вас недостаток" вы урод
     }
+    public int FindUnitCount(SO_Unit so_unit)
+    {
+        return _settlements.Find(x => x.UnitType == so_unit).UnitCount;
+    }
 
     public void UnitOrderUpdate()
     {
@@ -128,8 +134,6 @@ public class SettlementLogic
             _settlements.Add(new Unit(so_unit, count));
         }
     }
-
-
 
     private int CountAllUnits()
     {
