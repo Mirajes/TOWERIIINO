@@ -9,6 +9,8 @@ public class SettlementLogic
     private List<SO_Unit> _unitOrder = new List<SO_Unit>();
 
     private float _wheatCount = 150;
+
+    // Eat Multi
     private float _wheatMultiplierDefault = 1f;
     private float _wheatMultiplier = 1.2f;
 
@@ -63,13 +65,11 @@ public class SettlementLogic
     private void AddWheat(float WheatAmount)
     {
         _wheatCount += WheatAmount * _wheatMultiplier;
-        Debug.Log($"пшеницы после фарма - {_wheatCount}");
     }
 
     private void SubtractWheat(float WheatAmount)
     {
         _wheatCount -= WheatAmount * _wheatMultiplier;
-        Debug.Log($"пшеницы после съедания - {_wheatCount}");
     }
 
 
@@ -144,6 +144,14 @@ public class SettlementLogic
 
         return allCount;
     }
+    #endregion
+
+    #region Gold
+
+    public void AddGold(float goldAmount) => _goldValue += goldAmount;
+
+    public void RemoveGold(float goldAmount) => _goldValue -= goldAmount;
+
     #endregion
 
     #region Builder

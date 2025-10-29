@@ -119,15 +119,25 @@ public class GameManager : MonoBehaviour
 
         Vector3 spawnPosition = _player.transform.position + new Vector3(
             randomDirection.x, 0, randomDirection.y) * randomDistance;
+        #endregion
 
         int rndIndex = Random.Range(0, _enemyList.Count);
-        #endregion
 
         Enemy enemy = Instantiate(_enemyList[rndIndex], spawnPosition, Quaternion.identity, _enemyFolder);
         enemy.Init(_player);
 
+        enemy.EnemyDie += OnEnemyDie;
+
         _spawnedEnemies.Add(enemy);
+
+
     }
+
+    private void OnEnemyDie(SO_Enemy enemy)
+    {
+        _settlement.AddGold(enemy.EnemyRewardGold);
+    }
+
     #endregion
 
     #region BuyManager
@@ -203,7 +213,7 @@ public class GameManager : MonoBehaviour
             _settlement.CollectWheatRaw();
         }
         // coroutine
-        if (_timer.SurvivedTime - _LT_UnitHired >= _LT_UnitHired)
+        if (_timer.SurvivedTime - _LT_UnitHired >= _timer.HireUnitCD)
         {
             _LT_UnitHired = _timer.SurvivedTime;
             _settlement.UnitOrderUpdate();
@@ -240,10 +250,11 @@ public class GameManager : MonoBehaviour
     #region Coroutines
     private IEnumerator EnemySpawner()
     {
-        SpawnEnemy();
-        yield return new WaitForSeconds(_enemySpawnRate);
-
-
+        while (true)
+        {
+            SpawnEnemy();
+            yield return new WaitForSeconds(_enemySpawnRate);
+        }
     }
     #endregion
 }

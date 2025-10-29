@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -5,11 +6,14 @@ public class Enemy : MonoBehaviour
      private Transform _player;
     [SerializeField] private SO_Enemy _data;
 
-    private int _enemyHealth;
+    [SerializeField] private int _enemyHealth;
+
+    public event Action<SO_Enemy> EnemyDie;
 
     public void Init(Transform player)
     {
         _player = player;
+        _enemyHealth = _data.EnemyHealth;
     }
 
     private void FixedUpdate()
@@ -17,13 +21,14 @@ public class Enemy : MonoBehaviour
         if (IsEnemyAlive())
         {
             MoveEnemy();
-        } else
+        }
+        else
         {
             Destroy(gameObject);
         }
     }
 
-    private bool IsEnemyAlive() => _enemyHealth >= 0;
+    private bool IsEnemyAlive() => _enemyHealth > 0;
 
     private void MoveEnemy()
     {
@@ -35,9 +40,7 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            /*
-             ***
-             */
+            EnemyDie(_data);
             Destroy(gameObject);
         }
     }
