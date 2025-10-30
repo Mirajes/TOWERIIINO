@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _starterWarriors;
     [SerializeField] private SO_Unit _builder;
     [SerializeField] private int _starterBuilders;
+
+    private float _hireMultiplier = 2f;
     #endregion
 
     // LT - LastTime
@@ -104,12 +106,14 @@ public class GameManager : MonoBehaviour
     #region Enemy
     [SerializeField] private List<Enemy> _enemyList = new List<Enemy>();
     private List<Enemy> _spawnedEnemies = new List<Enemy>();
-
     [SerializeField] private Transform _enemyFolder;
 
     [SerializeField] private Transform _safeZone;
     [SerializeField] private Transform _dangerZone;
+
+    [SerializeField] private float _enemyRespawnCD = 10f;
     private float _enemySpawnRate = 1f;
+    private int _enemyBundle = 2;
 
     private void SpawnEnemy()
     {
@@ -129,14 +133,25 @@ public class GameManager : MonoBehaviour
         enemy.EnemyDie += OnEnemyDie;
 
         _spawnedEnemies.Add(enemy);
-
-
     }
 
-    private void OnEnemyDie(SO_Enemy enemy)
+    private void OnEnemyDie(SO_Enemy so_enemy, GameObject enemy)
     {
-        _settlement.AddGold(enemy.EnemyRewardGold);
+        _settlement.AddGold(so_enemy.EnemyRewardGold);
+        Destroy(enemy);
     }
+
+    #region ChangeSpawnRate
+
+    private void RaiseSpawnRate()
+    {
+        _enemySpawnRate += Time.deltaTime / 100 ;
+        print(_enemySpawnRate);
+    }
+
+    private float CurrentEnemySpawnCD() => _enemyRespawnCD / _enemySpawnRate;
+
+    #endregion
 
     #endregion
 
@@ -184,6 +199,7 @@ public class GameManager : MonoBehaviour
     {
         CreateEnvinronment();
         StartCoroutine(EnemySpawner());
+        StartCoroutine(UnitHirer(_isWalking));
         _settlement.Init(_farmer, _starterFarmers);
         _settlement.Init(_warrior, _starterWarriors);
         _settlement.Init(_builder, _starterBuilders);
@@ -200,6 +216,8 @@ public class GameManager : MonoBehaviour
 
         #region Settlements
         _settlement.HereWeGo(_isWalking);
+
+        #region Wheat
         // кушать через корутину нужно чтобы нельзя было прожить по кд проблел для получения пшеницы
         if (_timer.SurvivedTime - _LT_AteWheat >= _timer.WheatEatCD)
         {
@@ -212,12 +230,14 @@ public class GameManager : MonoBehaviour
             _LT_CollectedWheat = _timer.SurvivedTime;
             _settlement.CollectWheatRaw();
         }
+        #endregion
+
         // coroutine
-        if (_timer.SurvivedTime - _LT_UnitHired >= _timer.HireUnitCD)
-        {
-            _LT_UnitHired = _timer.SurvivedTime;
-            _settlement.UnitOrderUpdate();
-        }
+        // unit hire in coroutine
+        #endregion
+
+        #region Enemy
+        RaiseSpawnRate();
         #endregion
 
         #region EnvironmentUpdate
@@ -239,7 +259,6 @@ public class GameManager : MonoBehaviour
             UpdateUI();
         }
         #endregion
-
     }
 
     private void OnDisable()
@@ -252,8 +271,29 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            SpawnEnemy();
-            yield return new WaitForSeconds(_enemySpawnRate);
+            for (int i = 0; i < _enemyBundle; i++)
+                SpawnEnemy();
+
+            yield return new WaitForSeconds(CurrentEnemySpawnCD());
+        }
+    }
+
+    private IEnumerator UnitHirer(bool isWalking)
+    {
+        while (true)
+        {
+            if (!isWalking)
+            {
+                yield return new WaitForSeconds(_timer.HireUnitCD / _hireMultiplier);
+                _settlement.UnitOrderCheck();
+            }
+
+            else if (isWalking)
+            {
+                yield return new WaitForSeconds(_timer.HireUnitCD);
+                _settlement.UnitOrderCheck();
+            }
+
         }
     }
     #endregion

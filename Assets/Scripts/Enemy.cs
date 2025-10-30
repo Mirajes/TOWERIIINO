@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private int _enemyHealth;
 
-    public event Action<SO_Enemy> EnemyDie;
+    public event Action<SO_Enemy, GameObject> EnemyDie;
 
     public void Init(Transform player)
     {
@@ -40,8 +40,8 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            EnemyDie(_data);
-            Destroy(gameObject);
+            EnemyDie(_data, gameObject);
+
         }
     }
 }

@@ -114,7 +114,7 @@ public class SettlementLogic
         return _settlements.Find(x => x.UnitType == so_unit).UnitCount;
     }
 
-    public void UnitOrderUpdate()
+    public void UnitOrderCheck()
     {
         if (_unitOrder.Count > 0)
         {
