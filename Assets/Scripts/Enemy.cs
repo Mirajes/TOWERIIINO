@@ -1,19 +1,26 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-     private Transform _player;
+    private Transform _player;
+    private Camera _playerCamera;
     [SerializeField] private SO_Enemy _data;
 
     [SerializeField] private int _enemyHealth;
+    private RectTransform _healthPanel;
 
-    public event Action<SO_Enemy, GameObject> EnemyDie;
+    public event Action<SO_Enemy, GameObject, int> EnemyDie;
 
-    public void Init(Transform player)
+    public void Init(Transform player, Camera PlayerCamera)
     {
         _player = player;
         _enemyHealth = _data.EnemyHealth;
+        _playerCamera = PlayerCamera;
+
+        _healthPanel = gameObject.GetComponentInChildren<RectTransform>();
+        gameObject.GetComponentInChildren<TMP_Text>().text = _data.EnemyHealth.ToString();
     }
 
     private void FixedUpdate()
@@ -21,6 +28,7 @@ public class Enemy : MonoBehaviour
         if (IsEnemyAlive())
         {
             MoveEnemy();
+            LookAtCamera();
         }
         else
         {
@@ -40,8 +48,13 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            EnemyDie(_data, gameObject);
-
+            EnemyDie(_data, gameObject, _enemyHealth);
+            gameObject.SetActive(false);
         }
+    }
+
+    private void LookAtCamera()
+    {
+        _healthPanel.LookAt(_playerCamera.transform);
     }
 }

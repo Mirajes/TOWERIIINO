@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private PlayerInput _input;
+    [SerializeField] private Camera _playerCamera;
     //private float _score
 
     #region Classes
@@ -30,12 +32,37 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _starterBuilders;
 
     private float _hireMultiplier = 2f;
+
+    private SO_Unit Unit_FindAlive()
+    {
+        SO_Unit aliveUnit;
+        if (_settlement.FindUnitCount(_warrior) > 0)
+            aliveUnit = _warrior;
+        else if (_settlement.FindUnitCount(_builder) > 0)
+            aliveUnit = _builder;
+        else if (_settlement.FindUnitCount(_farmer) > 0)
+            aliveUnit = _farmer;
+        else
+            return null;
+
+            return aliveUnit;
+    }
+
+    private int Unit_ConsumeEnemyHealth(SO_Unit so_unit, int enemyHP)
+    {
+        if (so_unit == _warrior)
+            return enemyHP - so_unit.UnitDamage;
+        else if (so_unit == _builder)
+            return enemyHP - so_unit.UnitDamage;
+        else if (so_unit == _farmer)
+            return enemyHP - so_unit.UnitDamage;
+        else return 0;
+    }
     #endregion
 
     // LT - LastTime
     private float _LT_CollectedWheat = 0f;
     private float _LT_AteWheat = 0f;
-    private float _LT_UnitHired = 0f;
 
     #endregion
 
@@ -128,15 +155,29 @@ public class GameManager : MonoBehaviour
         int rndIndex = Random.Range(0, _enemyList.Count);
 
         Enemy enemy = Instantiate(_enemyList[rndIndex], spawnPosition, Quaternion.identity, _enemyFolder);
-        enemy.Init(_player);
+        enemy.Init(_player, _playerCamera);
 
         enemy.EnemyDie += OnEnemyDie;
 
         _spawnedEnemies.Add(enemy);
     }
 
-    private void OnEnemyDie(SO_Enemy so_enemy, GameObject enemy)
+    private void OnEnemyDie(SO_Enemy so_enemy, GameObject enemy, int enemyHealth)
     {
+        int currentEnemyHealth = enemyHealth;
+
+        while (currentEnemyHealth > 0)
+        {
+
+            SO_Unit unit_to_kill = Unit_FindAlive();
+            int consumeEnemyHealth = Unit_ConsumeEnemyHealth(unit_to_kill, currentEnemyHealth);
+
+            currentEnemyHealth = consumeEnemyHealth;
+            _settlement.KillUnit(unit_to_kill, 1);
+
+            GameEndCheck();
+        }
+
         _settlement.AddGold(so_enemy.EnemyRewardGold);
         Destroy(enemy);
     }
@@ -146,7 +187,7 @@ public class GameManager : MonoBehaviour
     private void RaiseSpawnRate()
     {
         _enemySpawnRate += Time.deltaTime / 100 ;
-        print(_enemySpawnRate);
+        //print(_enemySpawnRate);
     }
 
     private float CurrentEnemySpawnCD() => _enemyRespawnCD / _enemySpawnRate;
@@ -182,6 +223,42 @@ public class GameManager : MonoBehaviour
         _warriorLabel.text = _settlement.FindUnitCount(_warrior).ToString();
         _builderLabel.text = _settlement.FindUnitCount(_builder).ToString();
     }
+
+    [SerializeField] private GameObject _endScreen;
+    #endregion
+
+    #region Game
+
+    private void GameEndCheck()
+    {
+        int unitCount = _settlement.CountAllUnits();
+        if (unitCount <= 0)
+        {
+            Time.timeScale = 0f;
+            _endScreen.SetActive(true);
+        }
+    }
+
+    public void RestartGame()
+    {
+        StopAllCoroutines();
+
+        SceneManager.LoadScene("Game");
+        InitGame();
+        Time.timeScale = 1f;
+
+    }
+
+    private void InitGame()
+    {
+        CreateEnvinronment();
+        StartCoroutine(EnemySpawner());
+        StartCoroutine(UnitHirer());
+        _settlement.Init(_farmer, _starterFarmers);
+        _settlement.Init(_warrior, _starterWarriors);
+        _settlement.Init(_builder, _starterBuilders);
+    }
+
     #endregion
 
     private void Awake()
@@ -197,12 +274,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        CreateEnvinronment();
-        StartCoroutine(EnemySpawner());
-        StartCoroutine(UnitHirer(_isWalking));
-        _settlement.Init(_farmer, _starterFarmers);
-        _settlement.Init(_warrior, _starterWarriors);
-        _settlement.Init(_builder, _starterBuilders);
+        InitGame();
     }
 
     private void ChangeStatement(InputAction.CallbackContext context)
@@ -215,7 +287,7 @@ public class GameManager : MonoBehaviour
         _timer.RaiseSurvivedTime();
 
         #region Settlements
-        _settlement.HereWeGo(_isWalking);
+        //_settlement.HereWeGo(_isWalking);
 
         #region Wheat
         // кушать через корутину нужно чтобы нельзя было прожить по кд проблел для получения пшеницы
@@ -278,17 +350,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator UnitHirer(bool isWalking)
+    private IEnumerator UnitHirer()
     {
         while (true)
         {
-            if (!isWalking)
+            if (!_isWalking)
             {
                 yield return new WaitForSeconds(_timer.HireUnitCD / _hireMultiplier);
                 _settlement.UnitOrderCheck();
             }
 
-            else if (isWalking)
+            else if (_isWalking)
             {
                 yield return new WaitForSeconds(_timer.HireUnitCD);
                 _settlement.UnitOrderCheck();

@@ -21,6 +21,6 @@ public class Unit
 
     public void RemoveUnit(int removeCount)
     {
-        _count += removeCount;
+        _count -= removeCount;
     }
 }

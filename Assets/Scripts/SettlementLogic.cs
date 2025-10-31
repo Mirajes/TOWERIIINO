@@ -21,26 +21,26 @@ public class SettlementLogic
     public int AllUnitsCount => _allUnitCount;
     public float GoldValue => _goldValue;
 
-    #region Movement
-    private void StandingHandler()
-    {
+    //#region Movement
+    //private void StandingHandler()
+    //{
 
 
-    }
+    //}
 
-    private void MovingHandler()
-    {
+    //private void MovingHandler()
+    //{
 
-    }
+    //}
 
-    public void HereWeGo(bool isWalking)
-    {
-        if (isWalking)
-            MovingHandler();
-        else
-            StandingHandler();
-    }
-    #endregion
+    //public void HereWeGo(bool isWalking)
+    //{
+    //    if (isWalking)
+    //        MovingHandler();
+    //    else
+    //        StandingHandler();
+    //}
+    //#endregion
 
     #region Wheat
 
@@ -104,7 +104,6 @@ public class SettlementLogic
     {
         if (_wheatCount >= so_unit.WheatPrice)
         {
-            //if (_settlements.Contains(x => x.UnitType == so_unit))
             _unitOrder.Add(so_unit);
         } 
         // else -- сказать юй "у вас недостаток" вы урод
@@ -112,6 +111,13 @@ public class SettlementLogic
     public int FindUnitCount(SO_Unit so_unit)
     {
         return _settlements.Find(x => x.UnitType == so_unit).UnitCount;
+    }
+
+    public void KillUnit(SO_Unit so_unit, int count)
+    {
+        if (so_unit == null) return;
+
+        _settlements.Find(x => x.UnitType == so_unit).RemoveUnit(count);
     }
 
     public void UnitOrderCheck()
@@ -135,7 +141,7 @@ public class SettlementLogic
         }
     }
 
-    private int CountAllUnits()
+    public int CountAllUnits()
     {
         int allCount = 0;
 

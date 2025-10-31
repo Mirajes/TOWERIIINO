@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SO_Unit", menuName = "Scriptable Objects/SO_Unit")]

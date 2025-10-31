@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dummy
   m_EditorClassIdentifier: 
   _enemyName: Dummy
-  _enemyHealthBase: 1
+  _enemyHealthBase: 3
   _enemyDamage: 1
   _enemySpeed: 3
   _enemyRewardGold: 10

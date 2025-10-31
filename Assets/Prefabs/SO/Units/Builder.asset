@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Builder
   m_EditorClassIdentifier: 
   _unitName: Builder
-  _wheatPrice: 0
-  _wheatConsumption: 0
-  _wheatFarm: 0
-  _unitDamage: 0
+  _wheatPrice: 3
+  _wheatConsumption: 2
+  _wheatFarm: 1
+  _unitDamage: 2
