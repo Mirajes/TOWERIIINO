@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private PlayerInput _input;
     [SerializeField] private Camera _playerCamera;
-    //private float _score
 
     #region Classes
     private Timer _timer = new Timer();
@@ -179,6 +178,7 @@ public class GameManager : MonoBehaviour
         }
 
         _settlement.AddGold(so_enemy.EnemyRewardGold);
+        _enemiesKilled += 1;
         Destroy(enemy);
     }
 
@@ -215,6 +215,9 @@ public class GameManager : MonoBehaviour
     private float _UI_CD = 0.2f;
     private float _LT_UIUpdate = 0f;
 
+    [SerializeField] private TMP_Text _scoreLabel;
+    [SerializeField] private TMP_Text _fragLabel;
+
     private void UpdateUI()
     {
         _goldLabel.text = _settlement.GoldValue.ToString();
@@ -228,13 +231,22 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Game
+    [Header("Game")]
+    private float _score = 0f;
+    private int _enemiesKilled = 0;
+
+    [SerializeField] private bool _isPaused = false; 
 
     private void GameEndCheck()
     {
         int unitCount = _settlement.CountAllUnits();
         if (unitCount <= 0)
         {
-            Time.timeScale = 0f;
+            // потом будет ошибка связанная с выключением паузы во время смерти
+            _isPaused = true;
+
+            _scoreLabel.text = "Your score: " + _score;
+            _fragLabel.text = "Enemies killed: " + _enemiesKilled;
             _endScreen.SetActive(true);
         }
     }
@@ -243,7 +255,7 @@ public class GameManager : MonoBehaviour
     {
         StopAllCoroutines();
 
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene(1);
         InitGame();
         Time.timeScale = 1f;
 
@@ -277,6 +289,11 @@ public class GameManager : MonoBehaviour
         InitGame();
     }
 
+    private void Update()
+    {
+        Time.timeScale = _isPaused ? 0f : 1f;
+    }
+
     private void ChangeStatement(InputAction.CallbackContext context)
     {
         _isWalking = !_isWalking;
@@ -284,6 +301,7 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         _timer.RaiseSurvivedTime();
 
         #region Settlements
@@ -343,6 +361,8 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
+            if (_isPaused) yield return null;
+
             for (int i = 0; i < _enemyBundle; i++)
                 SpawnEnemy();
 
@@ -366,6 +386,7 @@ public class GameManager : MonoBehaviour
                 _settlement.UnitOrderCheck();
             }
 
+            yield return new WaitWhile(() => !_isPaused);
         }
     }
     #endregion
