@@ -8,13 +8,15 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private PlayerInput _input;
-    [SerializeField] private Camera _playerCamera;
+    [SerializeField] private Camera _mainCamera;
 
     #region Classes
     private Timer _timer = new Timer();
     private SettlementLogic _settlement = new SettlementLogic();
     private Environment _environment = new Environment();
     private UI _UI = new UI();
+
+    [SerializeField] private PlayerCamera _playerCamera;
     #endregion
 
     #region Settlements
@@ -141,6 +143,7 @@ public class GameManager : MonoBehaviour
     private float _enemySpawnRate = 1f;
     private int _enemyBundle = 2;
 
+    private float _minuteSaver = 0f;
     private void SpawnEnemy()
     {
         #region EnemyPosition
@@ -154,7 +157,7 @@ public class GameManager : MonoBehaviour
         int rndIndex = Random.Range(0, _enemyList.Count);
 
         Enemy enemy = Instantiate(_enemyList[rndIndex], spawnPosition, Quaternion.identity, _enemyFolder);
-        enemy.Init(_player, _playerCamera);
+        enemy.Init(_player, _mainCamera);
 
         enemy.EnemyDie += OnEnemyDie;
 
@@ -186,8 +189,14 @@ public class GameManager : MonoBehaviour
 
     private void RaiseSpawnRate()
     {
-        _enemySpawnRate += Time.deltaTime / 100 ;
-        //print(_enemySpawnRate);
+        _enemySpawnRate += Time.deltaTime / 100;
+        _minuteSaver += Time.deltaTime;
+
+        if (_minuteSaver >= 60f)
+        {
+            _minuteSaver = 0f;
+            _enemyBundle += 1;
+        }
     }
 
     private float CurrentEnemySpawnCD() => _enemyRespawnCD / _enemySpawnRate;
@@ -235,6 +244,7 @@ public class GameManager : MonoBehaviour
     private float _score = 0f;
     private int _enemiesKilled = 0;
 
+    [SerializeField] private bool _isDead = false;
     [SerializeField] private bool _isPaused = false; 
 
     private void GameEndCheck()
@@ -291,6 +301,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        _playerCamera.CheckForInteract();
         Time.timeScale = _isPaused ? 0f : 1f;
     }
 
