@@ -244,8 +244,8 @@ public class GameManager : MonoBehaviour
     private float _score = 0f;
     private int _enemiesKilled = 0;
 
-    [SerializeField] private bool _isDead = false;
-    [SerializeField] private bool _isPaused = false; 
+    [SerializeField] private static bool _isDead = false;
+    [SerializeField] private static bool _isPaused = false; 
 
     private void GameEndCheck()
     {
