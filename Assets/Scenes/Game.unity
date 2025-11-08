@@ -750,6 +750,7 @@ GameObject:
   - component: {fileID: 388160334}
   - component: {fileID: 388160335}
   - component: {fileID: 388160336}
+  - component: {fileID: 388160337}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Player
@@ -784,38 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad0e50d01967e6f499602780704cdffb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _input: {fileID: 388160336}
-  _mainCamera: {fileID: 395034510}
-  _playerCamera: {fileID: 395034513}
-  _isWalking: 0
-  _farmer: {fileID: 11400000, guid: 2104059852b88b5429bfe72eb818fbbb, type: 2}
-  _starterFarmers: 1
-  _warrior: {fileID: 11400000, guid: 7edda1d6e68ec1149b71922cf42b5662, type: 2}
-  _starterWarriors: 15
-  _builder: {fileID: 11400000, guid: c9ab1a6b031a69a47a9e9e3a1b5be870, type: 2}
-  _starterBuilders: 0
-  _player: {fileID: 953799039}
-  _environmentObjs:
-  - {fileID: 1214216400523522689, guid: 148642cc470923e40b87e052b31b3744, type: 3}
-  _maxObjects: 50
-  _despawnRadius: 30
-  _envFolder: {fileID: 2053317995}
-  _envSpawnPlace: {fileID: 1415949862}
-  _enemyList:
-  - {fileID: 2268046994121811583, guid: 16f833fdfa9a4674f96a18618f984468, type: 3}
-  - {fileID: 2340147229711574501, guid: af97f7e40e1e8a74792d914d21e909c5, type: 3}
-  _enemyFolder: {fileID: 1980322877}
-  _safeZone: {fileID: 763455664}
-  _dangerZone: {fileID: 1411596770}
-  _enemyRespawnCD: 10
-  _goldLabel: {fileID: 2012158440}
-  _wheatLabel: {fileID: 535627729}
-  _farmerLabel: {fileID: 1983994432}
-  _warriorLabel: {fileID: 1836118572}
-  _builderLabel: {fileID: 137175131}
-  _scoreLabel: {fileID: 1715029137}
-  _fragLabel: {fileID: 903952289}
-  _endScreen: {fileID: 1980121341}
+  _isDead: 0
 --- !u!114 &388160336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -846,6 +816,25 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerInputs
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 395034510}
+--- !u!114 &388160337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388160333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9e38b82b1e792e41a514d3873d408d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource_text: {fileID: 0}
+  _button: {fileID: 0}
+  Hero: {fileID: 0}
+  Item1: 0
+  Purchased1: {fileID: 0}
+  _resourceAmount: 0
+  _heroPrice: 1
 --- !u!1 &395034508
 GameObject:
   m_ObjectHideFlags: 0
@@ -997,9 +986,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableLayer:
-    serializedVersion: 2
     m_Bits: 8
   _highlightMaterial: {fileID: 2100000, guid: 3a3a4318ffd08ae40a7a45cf5990ea35, type: 2}
+  _currentHighlightedRenderer: {fileID: 0}
+  _originalMaterial: {fileID: 0}
+  _mainCamera: {fileID: 0}
 --- !u!1 &406319706
 GameObject:
   m_ObjectHideFlags: 0
@@ -3794,9 +3785,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 388160335}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: BuyFarmer
+      - m_Target: {fileID: 388160337}
+        m_TargetAssemblyTypeName: resource, Assembly-CSharp
+        m_MethodName: buy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5257,63 +5248,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &5238321093709044499
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.35
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392380904925664372, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2564854187216106246, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
-      propertyPath: m_Name
-      value: BuildingPlot
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b9ba291c200f8e6408ef7bae01ac5b25, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5328,5 +5262,4 @@ SceneRoots:
   - {fileID: 1259168211}
   - {fileID: 335464771}
   - {fileID: 2139469132}
-  - {fileID: 5238321093709044499}
   - {fileID: 1940288719}
