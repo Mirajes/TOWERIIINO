@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4dd76f19f85783c429ddef8400a8113f, type: 3}
-  m_Name: Dummy
+  m_Name: Melee
   m_EditorClassIdentifier: 
-  _enemyName: Dummy
-  _enemyHealthBase: 3
+  _enemyName: Melee
+  _enemyType: 
+  _enemyHealth: 3
   _enemyDamage: 1
   _enemySpeed: 3
-  _enemyRewardGold: 10
+  _goldReward: 5

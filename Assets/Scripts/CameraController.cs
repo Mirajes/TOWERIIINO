@@ -1,23 +1,22 @@
-using TMPro;
 using UnityEngine;
 
-public class PlayerCamera : MonoBehaviour
+public class CameraController : MonoBehaviour 
 {
+    [SerializeField] private Camera _playerCamera;
+
+    private static bool _isInteract = false;
+    public static bool IsInteract => _isInteract;
+
+    #region Highlight
     [SerializeField] private LayerMask _interactableLayer;
     [SerializeField] private Material _highlightMaterial;
 
-    private Renderer _currentHighlightedRenderer;
     private Material _originalMaterial;
-    private Camera _mainCamera;
-
-    private void Start()
-    {
-        _mainCamera = Camera.main;
-    }
+    private Renderer _currentHighlightedRenderer;
 
     public void CheckForInteract()
     {
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, _interactableLayer))
@@ -27,7 +26,6 @@ public class PlayerCamera : MonoBehaviour
                 RemoveHighlight();
                 HighlightObject(hit.collider.gameObject);
             }
-
         }
         else
         {
@@ -38,24 +36,32 @@ public class PlayerCamera : MonoBehaviour
     private void HighlightObject(GameObject obj)
     {
         _currentHighlightedRenderer = obj.GetComponent<Renderer>();
+
         if (_currentHighlightedRenderer != null)
         {
             _originalMaterial = _currentHighlightedRenderer.material;
             _currentHighlightedRenderer.material = _highlightMaterial;
+            _isInteract = true;
         }
     }
-
     private void RemoveHighlight()
     {
-        if (_currentHighlightedRenderer != null)
+        if ( _currentHighlightedRenderer != null)
         {
             _currentHighlightedRenderer.material = _originalMaterial;
             _currentHighlightedRenderer = null;
+            _isInteract = false;
         }
+    }
+    #endregion
+
+    private void Start()
+    {
+        _playerCamera = Camera.main;
     }
 
     private void Update()
     {
-        
+        CheckForInteract();
     }
 }

@@ -1,33 +1,35 @@
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class Timer
 {
-    [SerializeField] private float _gameScale = 1f;
-    [SerializeField] private float _timeSurvived = 0f;
+    private float _elapsedTime = 0f;
+    private float _gameScale = 1f;
 
-    [SerializeField] private float _respawnCheckInterval = 2f;
+    private float _CD_wheatCollect = 3f;
+    private float _CD_mult_wheatCollect = 1f;
 
-    [SerializeField] private float _wheatCollectCD = 5f;
-    [SerializeField] private float _wheatEatCD = 4f;
-    [SerializeField] private float _unitHireCD = 2f;
+    private float _CD_unitHire = 3f;
+    private float _CD_mult_unitHire = 1f;
 
-    [SerializeField] private float _enemyRespawnCD = 5f;
+    private float _CD_UI_update = 0.2f;
 
-    [SerializeField] private float _RNG_MomentCD = 60f;
-
-    // CD - Cooldown
+    public float ElapsedTime => _elapsedTime;
     public float GameScale => _gameScale;
-    public float SurvivedTime => _timeSurvived;
-    public float RespawnCheckIntervalCD => _respawnCheckInterval;
-    public float WheatCollectCD => _wheatCollectCD;
-    public float WheatEatCD => _wheatEatCD;
-    public float HireUnitCD => _unitHireCD;
-    public float EnemyRespawnCD => _enemyRespawnCD;
-    public float RNGMomentCD => _RNG_MomentCD;
-    
-    public void RaiseSurvivedTime()
+
+    public float CD_WheatCollect => _CD_wheatCollect;
+    public float CD_mult_WheatCollect => _CD_mult_wheatCollect;
+
+    public float CD_UnitHire => _CD_unitHire;
+    public float CD_mult_UnitHire => _CD_mult_unitHire;
+    public float CD_UI_Update => _CD_UI_update;
+
+    public void RaiseElapsedTime(float deltaTime) => _elapsedTime += deltaTime;
+    public void ChangeGameScale(float NewScale)
     {
-        _timeSurvived += Time.deltaTime * _gameScale;
+        _gameScale = NewScale;
+        // action throw
     }
+
+    public void ChangeMultUnitHire(float NewMultUnitHire) => _CD_mult_unitHire = NewMultUnitHire;
+    public void ChangeMultWheatCollect(float NewMultWheatCollect) => _CD_mult_wheatCollect = NewMultWheatCollect;
 }

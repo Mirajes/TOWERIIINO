@@ -6,7 +6,7 @@ public class Unit
     private int _count = 0;
 
     public SO_Unit UnitType => _unitType;
-    public int UnitCount => _count;
+    public int Count => _count;
 
     public Unit(SO_Unit unitType, int count)
     {
@@ -14,13 +14,7 @@ public class Unit
         _count = count;
     }
 
-    public void AddUnit(int addCount)
-    {
-        _count += addCount;
-    }
+    public void AddUnit(int addCount) => _count += addCount;
 
-    public void RemoveUnit(int removeCount)
-    {
-        _count -= removeCount;
-    }
+    public void RemoveUnit(int removeCount) => _count -= removeCount;
 }

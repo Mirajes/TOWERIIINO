@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SettlementDecor
+public class EnemyBunches
 {
     
 }

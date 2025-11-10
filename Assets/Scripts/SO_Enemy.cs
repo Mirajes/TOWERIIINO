@@ -4,17 +4,18 @@ using UnityEngine;
 public class SO_Enemy : ScriptableObject
 {
     [SerializeField] private string _enemyName;
-    [SerializeField] private int _enemyHealthBase;
+    [SerializeField] private string _enemyType;
+
+    [SerializeField] private int _enemyHealth;
     [SerializeField] private int _enemyDamage;
     [SerializeField] private float _enemySpeed;
-
-    [SerializeField] private float _enemyRewardGold;
-
-    //[SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private float _goldReward;
 
     public string EnemyName => _enemyName;
-    public int EnemyHealth => _enemyHealthBase;
+    public string EnemyType => _enemyType;
+    public int EnemyHealth => _enemyHealth;
     public int EnemyDamage => _enemyDamage;
     public float EnemySpeed => _enemySpeed;
-    public float EnemyRewardGold => _enemyRewardGold;
+    public float GoldReward => _goldReward;
+
 }

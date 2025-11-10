@@ -1,167 +1,134 @@
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class SettlementLogic
 {
-    private int _allUnitCount = 0;
-    private List<Unit> _settlements = new List<Unit>();
-
-    private List<SO_Unit> _unitOrder = new List<SO_Unit>();
-
     private float _wheatCount = 150;
+    private float _wheatMultiplier = 1f;
+    private int _goldCount = 0;
 
-    // Eat Multi
-    private float _wheatMultiplierDefault = 1f;
-    private float _wheatMultiplier = 1.2f;
+    private bool _isWalking = false;
 
-    private float _goldValue = 0f;
+    private List<Unit> _settlementList = new List<Unit>();
+    private List<SO_Unit> _orderList = new List<SO_Unit>();
 
-    public List<Unit> SettlementsList => _settlements;
     public float WheatCount => _wheatCount;
-    public int AllUnitsCount => _allUnitCount;
-    public float GoldValue => _goldValue;
+    public float WheatMultiplier => _wheatMultiplier;
+    public int GoldCount => _goldCount;
+    public bool IsWalking => _isWalking;
 
-    //#region Movement
-    //private void StandingHandler()
-    //{
-
-
-    //}
-
-    //private void MovingHandler()
-    //{
-
-    //}
-
-    //public void HereWeGo(bool isWalking)
-    //{
-    //    if (isWalking)
-    //        MovingHandler();
-    //    else
-    //        StandingHandler();
-    //}
-    //#endregion
-
-    #region Wheat
-
-    private int CountRawFarmWheat()
+    public void InitUnit(SO_Unit so_unit, int count)
     {
-        int wheat = 0;
-
-        foreach (Unit unit in _settlements)
-        {
-            wheat += unit.UnitCount * unit.UnitType.UnitWheatFarm;
-        }
-
-        return wheat;
+        CreateUnit(so_unit, count);
     }
 
-    public void CollectWheatRaw()
-    {
-        int wheatAmount = CountRawFarmWheat();
-        AddWheat(wheatAmount);
-    }
-
-    private void AddWheat(float WheatAmount)
-    {
-        _wheatCount += WheatAmount * _wheatMultiplier;
-    }
-
-    private void SubtractWheat(float WheatAmount)
-    {
-        _wheatCount -= WheatAmount * _wheatMultiplier;
-    }
+    #region Movement
 
 
-    public void EatWheat(bool isWalking)
-    {
-        float wheat = 0;
-
-        foreach (Unit unit in _settlements)
-        {
-            wheat += unit.UnitCount * unit.UnitType.UnitWheatConsumption;
-        }
-
-        if (isWalking)
-        {
-            float wheatAmount = wheat * _wheatMultiplier;
-            SubtractWheat(wheatAmount);
-        }
-        else
-        {
-            float wheatAmount = wheat * _wheatMultiplierDefault;
-            SubtractWheat(wheatAmount);
-        }
-    }
 
     #endregion
 
-    #region Units
+    #region Unit
+    public IEnumerator UnitUpdater(Timer timer)
+    {
+        while (!GameManager.IsDead)
+        {
+            if (_orderList.Count > 0)
+            {
+                float cd = timer.CD_UnitHire / timer.CD_mult_UnitHire;
 
-    public void Init(SO_Unit so_unit, int count) => CreateUnit(so_unit, count);
+                yield return new WaitForSeconds(cd);
+                SO_Unit so_unit = _orderList[0];
+                _orderList.RemoveAt(0);
+                CreateUnit(so_unit, 1);
+            }
+
+            yield return null; // fix
+            //yield return new WaitUntil(GameManager.IsPaused == false);
+        }
+    }
+
+    public int FindUnitCount(SO_Unit so_unit) => _settlementList.Find(x => x.UnitType == so_unit).Count;
 
     public void HireUnit(SO_Unit so_unit)
     {
-        if (_wheatCount >= so_unit.WheatPrice)
+        if (IsEnoughForHire(so_unit, _wheatCount))
         {
-            _unitOrder.Add(so_unit);
-        } 
-        // else -- сказать юй "у вас недостаток" вы урод
-    }
-    public int FindUnitCount(SO_Unit so_unit)
-    {
-        return _settlements.Find(x => x.UnitType == so_unit).UnitCount;
+            RemoveWheat(so_unit.WheatPrice, 1f);
+            AddUnitToOrder(so_unit);
+        }
     }
 
     public void KillUnit(SO_Unit so_unit, int count)
     {
         if (so_unit == null) return;
-
-        _settlements.Find(x => x.UnitType == so_unit).RemoveUnit(count);
+        _settlementList.Find(x => x.UnitType == so_unit).RemoveUnit(count);
     }
 
-    public void UnitOrderCheck()
-    {
-        if (_unitOrder.Count > 0)
-        {
-            CreateUnit(_unitOrder[0], 1);
-            _unitOrder.RemoveAt(0);
-        }
-    }
-
+    private bool IsEnoughForHire(SO_Unit so_unit, float wheatCount) => wheatCount >= so_unit.UnitWheatFarm;
+    private void AddUnitToOrder(SO_Unit so_unit) => _orderList.Add(so_unit);
     private void CreateUnit(SO_Unit so_unit, int count)
     {
-        if (_settlements.FindAll(x => x.UnitType == so_unit).Count > 0)
+        // что это
+        if (_settlementList.FindAll(x => x.UnitType == so_unit).Count > 0)
         {
-            _settlements.Find(x => x.UnitType == so_unit).AddUnit(count);
+            _settlementList.Find(x => x.UnitType == so_unit).AddUnit(count);
         }
         else
         {
-            _settlements.Add(new Unit(so_unit, count));
+            _settlementList.Add(new Unit(so_unit, count));
+        }
+    }
+    #endregion
+
+    #region Wheat
+
+    public IEnumerator WheatUpdater(Timer timer)
+    {
+        while (!GameManager.IsDead)
+        {
+            if (!_isWalking)
+            {
+                float cd = timer.CD_WheatCollect * timer.CD_mult_WheatCollect;
+                yield return new WaitForSeconds(cd);
+                
+                if (_isWalking) yield return null;
+
+                CollectWheat(_wheatMultiplier);
+            }
+
+            yield return null; // until
         }
     }
 
-    public int CountAllUnits()
+    public void CollectWheat(float wheatCollectMultiplier) => AddWheat(CountRawWheat(), wheatCollectMultiplier);
+    public void ChangeWheatMultiplier(float NewWheatMultiplier) => _wheatMultiplier = NewWheatMultiplier;
+    public void EatWheat(float wheatEatMultiplier)
     {
-        int allCount = 0;
+        float wheatToEat = 0f;
 
-        foreach (var item in _settlements)
-            allCount += item.UnitCount;
+        foreach (Unit unit in _settlementList)
+            wheatToEat += unit.Count * unit.UnitType.UnitWheatConsumption;
 
-        return allCount;
+        RemoveWheat(wheatToEat, wheatEatMultiplier);
     }
-    #endregion
 
-    #region Gold
+    private float CountRawWheat()
+    {
+        float wheat = 0;
 
-    public void AddGold(float goldAmount) => _goldValue += goldAmount;
+        foreach (Unit unit in _settlementList)
+            wheat += unit.Count * unit.UnitType.UnitWheatFarm;
+        
+        return wheat;
+    }
 
-    public void RemoveGold(float goldAmount) => _goldValue -= goldAmount;
+    private void AddWheat(float wheatToAdd, float wheatAddMultiplier) => _wheatCount += wheatToAdd * wheatAddMultiplier;
 
-    #endregion
+    private void RemoveWheat(float wheatToEat, float wheatEatMultiplier) => _wheatCount -= wheatToEat * wheatEatMultiplier;
 
-    #region Builder
+
 
     #endregion
 }
-

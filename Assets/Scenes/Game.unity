@@ -259,7 +259,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.9
+  m_fontSize: 98.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -748,8 +748,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 388160334}
-  - component: {fileID: 388160335}
   - component: {fileID: 388160336}
+  - component: {fileID: 388160337}
+  - component: {fileID: 388160338}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Player
@@ -772,50 +773,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &388160335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 388160333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad0e50d01967e6f499602780704cdffb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _input: {fileID: 388160336}
-  _mainCamera: {fileID: 395034510}
-  _playerCamera: {fileID: 395034513}
-  _isWalking: 0
-  _farmer: {fileID: 11400000, guid: 2104059852b88b5429bfe72eb818fbbb, type: 2}
-  _starterFarmers: 1
-  _warrior: {fileID: 11400000, guid: 7edda1d6e68ec1149b71922cf42b5662, type: 2}
-  _starterWarriors: 15
-  _builder: {fileID: 11400000, guid: c9ab1a6b031a69a47a9e9e3a1b5be870, type: 2}
-  _starterBuilders: 0
-  _player: {fileID: 953799039}
-  _environmentObjs:
-  - {fileID: 1214216400523522689, guid: 148642cc470923e40b87e052b31b3744, type: 3}
-  _maxObjects: 50
-  _despawnRadius: 30
-  _envFolder: {fileID: 2053317995}
-  _envSpawnPlace: {fileID: 1415949862}
-  _enemyList:
-  - {fileID: 2268046994121811583, guid: 16f833fdfa9a4674f96a18618f984468, type: 3}
-  - {fileID: 2340147229711574501, guid: af97f7e40e1e8a74792d914d21e909c5, type: 3}
-  _enemyFolder: {fileID: 1980322877}
-  _safeZone: {fileID: 763455664}
-  _dangerZone: {fileID: 1411596770}
-  _enemyRespawnCD: 10
-  _goldLabel: {fileID: 2012158440}
-  _wheatLabel: {fileID: 535627729}
-  _farmerLabel: {fileID: 1983994432}
-  _warriorLabel: {fileID: 1836118572}
-  _builderLabel: {fileID: 137175131}
-  _scoreLabel: {fileID: 1715029137}
-  _fragLabel: {fileID: 903952289}
-  _endScreen: {fileID: 1980121341}
 --- !u!114 &388160336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -846,6 +803,50 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerInputs
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 395034510}
+--- !u!114 &388160337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388160333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad0e50d01967e6f499602780704cdffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 953799039}
+  _wheatLabel: {fileID: 535627729}
+  _goldLabel: {fileID: 2012158440}
+  _farmerLabel: {fileID: 1983994432}
+  _warriorLabel: {fileID: 1836118572}
+  _builderLabel: {fileID: 137175131}
+  _farmerUnit: {fileID: 11400000, guid: 2104059852b88b5429bfe72eb818fbbb, type: 2}
+  _starterFarmers: 25
+  _warriorUnit: {fileID: 11400000, guid: 7edda1d6e68ec1149b71922cf42b5662, type: 2}
+  _starterWarriors: 15
+  _builderUnit: {fileID: 11400000, guid: c9ab1a6b031a69a47a9e9e3a1b5be870, type: 2}
+  _starterBuilders: 0
+  _safeZone: {fileID: 763455660}
+  _dangerZone: {fileID: 1411596766}
+  _meleeEnemy: {fileID: 3654813806479996197, guid: 35c642a1374608f469aa2aef30f600e5, type: 3}
+--- !u!114 &388160338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388160333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a626f01e11a81e8498104e868105b3d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerCamera: {fileID: 395034510}
+  _interactableLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  _highlightMaterial: {fileID: 2100000, guid: 3a3a4318ffd08ae40a7a45cf5990ea35, type: 2}
 --- !u!1 &395034508
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,7 +859,6 @@ GameObject:
   - component: {fileID: 395034510}
   - component: {fileID: 395034509}
   - component: {fileID: 395034512}
-  - component: {fileID: 395034513}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -984,22 +984,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!114 &395034513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 395034508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a2955aa6fb1770439efafaa81cef10c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactableLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  _highlightMaterial: {fileID: 2100000, guid: 3a3a4318ffd08ae40a7a45cf5990ea35, type: 2}
 --- !u!1 &406319706
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,7 +1041,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b6550757ecc823d48827627966e12fbd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0fb0c068498e2ad4caccd4a93454bfa4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1294,7 +1278,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.55
+  m_fontSize: 95.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1755,7 +1739,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 90b6b17cc0bd80749b9c77d1f5e5e0ec, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2102,13 +2086,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 388160335}
+      - m_Target: {fileID: 388160337}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: BuyBuiler
-        m_Mode: 1
+        m_MethodName: HireUnit
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: c9ab1a6b031a69a47a9e9e3a1b5be870, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SO_Unit, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2374,7 +2358,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11.55
+  m_fontSize: 21.8
   m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2723,7 +2707,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11.85
+  m_fontSize: 22.65
   m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2858,7 +2842,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 388160335}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: RestartGame
         m_Mode: 1
@@ -3010,7 +2994,7 @@ Transform:
   m_GameObject: {fileID: 1259168207}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.39, z: 0}
   m_LocalScale: {x: 100, y: 0.5, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3473,7 +3457,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 11.6
+  m_fontSize: 21.9
   m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3794,13 +3778,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 388160335}
+      - m_Target: {fileID: 388160337}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: BuyFarmer
-        m_Mode: 1
+        m_MethodName: HireUnit
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 2104059852b88b5429bfe72eb818fbbb, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SO_Unit, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4141,13 +4125,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 388160335}
+      - m_Target: {fileID: 388160337}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: BuyWarrior
-        m_Mode: 1
+        m_MethodName: HireUnit
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 11400000, guid: 7edda1d6e68ec1149b71922cf42b5662, type: 2}
+          m_ObjectArgumentAssemblyTypeName: SO_Unit, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4496,7 +4480,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.15
+  m_fontSize: 97.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4731,7 +4715,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1980322877}
   m_Layer: 0
-  m_Name: Enemies
+  m_Name: EnemiesFolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4844,7 +4828,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.1
+  m_fontSize: 97.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4980,7 +4964,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 48.55
+  m_fontSize: 95.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5034,7 +5018,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2053317995}
   m_Layer: 0
-  m_Name: Envinronment
+  m_Name: EnvinronmentFolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

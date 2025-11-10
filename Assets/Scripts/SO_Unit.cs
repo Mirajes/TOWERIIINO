@@ -4,17 +4,18 @@ using UnityEngine;
 public class SO_Unit : ScriptableObject
 {
     [SerializeField] private string _unitName;
-    //[SerializeField] private GameObject _unitPrefab;
-
-    [SerializeField] private int _wheatPrice;
-    [SerializeField] private int _wheatConsumption; // consumption - потребление
-    [SerializeField] private int _wheatFarm;
+    [SerializeField] private string _unitDescription;
 
     [SerializeField] private int _unitDamage;
 
+    [SerializeField] private int _unitWheatPrice;
+    [SerializeField] private int _unitWheatFarm;
+    [SerializeField] private int _unitWheatConsumption; // potreblenie
+    
     public string UnitName => _unitName;
-    public int WheatPrice => _wheatPrice;
-    public int UnitWheatConsumption => _wheatConsumption;
-    public int UnitWheatFarm => _wheatFarm;
+    public string UnitDescription => _unitDescription;
     public int UnitDamage => _unitDamage;
+    public int WheatPrice => _unitWheatPrice;
+    public int UnitWheatFarm => _unitWheatFarm;
+    public int UnitWheatConsumption => _unitWheatConsumption;
 }
