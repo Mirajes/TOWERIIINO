@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class SettlementLogic
 {
@@ -44,8 +45,7 @@ public class SettlementLogic
                 CreateUnit(so_unit, 1);
             }
 
-            yield return null; // fix
-            //yield return new WaitUntil(GameManager.IsPaused == false);
+            yield return new WaitUntil(() => !GameManager.IsPaused);
         }
     }
 
@@ -84,7 +84,7 @@ public class SettlementLogic
 
     #region Wheat
 
-    public IEnumerator WheatUpdater(Timer timer)
+    public IEnumerator WheatCollectUpdater(Timer timer)
     {
         while (!GameManager.IsDead)
         {
@@ -98,7 +98,20 @@ public class SettlementLogic
                 CollectWheat(_wheatMultiplier);
             }
 
-            yield return null; // until
+            yield return new WaitUntil(() => !GameManager.IsPaused);
+        }
+    }
+
+    public IEnumerator WheatEatUpdater(Timer timer)
+    {
+        while (!GameManager.IsDead)
+        {
+            float cd = timer.CD_WheatEat * timer.CD_mult_WheatEat;
+            yield return new WaitForSeconds(cd);
+
+            RemoveWheat(CountRawWheat(), 1f);
+
+            yield return new WaitUntil(() => !GameManager.IsPaused);
         }
     }
 

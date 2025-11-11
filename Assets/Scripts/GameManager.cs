@@ -59,8 +59,6 @@ public class GameManager : MonoBehaviour
     [Header("Enemy")]
     [SerializeField] private GameObject _safeZone;
     [SerializeField] private GameObject _dangerZone;
-
-    [SerializeField] private GameObject _meleeEnemy;
     #endregion
 
     private void Awake()
@@ -76,10 +74,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Instantiate(_meleeEnemy, EnemyLogic.RandomEnemyPos(_player, _safeZone.transform, _dangerZone.transform), Quaternion.identity);
+        //Instantiate(_meleeEnemy, EnemyLogic.RandomEnemyPos(_player, _safeZone.transform, _dangerZone.transform), Quaternion.identity);
         StartCoroutine(UI_Updater());
         StartCoroutine(_settlementLogic.UnitUpdater(_timer));
-        StartCoroutine(_settlementLogic.WheatUpdater(_timer));
+        StartCoroutine(_settlementLogic.WheatCollectUpdater(_timer));
+        StartCoroutine(_settlementLogic.WheatEatUpdater(_timer));
     }
 
     private void Update()
@@ -87,5 +86,7 @@ public class GameManager : MonoBehaviour
         if (_isPaused || _isDead) return;
 
         _timer.RaiseElapsedTime(Time.deltaTime);
+        if (CameraController.IsInteract && Input.GetKeyDown(KeyCode.E))
+            ;
     }
 }
