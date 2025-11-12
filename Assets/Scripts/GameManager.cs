@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         if (_isPaused || _isDead) return;
 
         _timer.RaiseElapsedTime(Time.deltaTime);
-        if (CameraController.IsInteract && Input.GetKeyDown(KeyCode.E))
-            ;
+        if (Input.GetKeyDown(KeyCode.E) && CameraController.IsInteract)
+            Debug.Log("clicked");
     }
 }

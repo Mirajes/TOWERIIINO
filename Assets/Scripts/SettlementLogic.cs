@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class SettlementLogic
 {
@@ -143,5 +142,11 @@ public class SettlementLogic
 
 
 
+    #endregion
+
+    #region Gold
+    public void AddGold(int goldAmount) => _goldCount += goldAmount;
+    
+    public void RemoveGold(int goldAmount) => _goldCount -= goldAmount;
     #endregion
 }
