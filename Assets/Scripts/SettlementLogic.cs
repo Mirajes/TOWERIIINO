@@ -114,7 +114,7 @@ public class SettlementLogic
         }
     }
 
-    public void CollectWheat(float wheatCollectMultiplier) => AddWheat(CountRawWheat(), wheatCollectMultiplier);
+    private void CollectWheat(float wheatCollectMultiplier) => AddWheat(CountRawWheat(), wheatCollectMultiplier);
     public void ChangeWheatMultiplier(float NewWheatMultiplier) => _wheatMultiplier = NewWheatMultiplier;
     public void EatWheat(float wheatEatMultiplier)
     {

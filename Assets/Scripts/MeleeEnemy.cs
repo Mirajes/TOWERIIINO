@@ -32,7 +32,7 @@ public class MeleeEnemy : EnemyLogic
     {
         if (col.gameObject.tag == "Player")
         {
-            EnemyDeath();
+            EnemyDeath(_enemyData);
         }
     }
 

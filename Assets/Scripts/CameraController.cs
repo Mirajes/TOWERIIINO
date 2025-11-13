@@ -55,6 +55,8 @@ public class CameraController : MonoBehaviour
     }
     #endregion
 
+    public Vector3 GetWorldMousePos() => _playerCamera.ScreenToWorldPoint(Input.mousePosition);
+
     private void Start()
     {
         _playerCamera = Camera.main;

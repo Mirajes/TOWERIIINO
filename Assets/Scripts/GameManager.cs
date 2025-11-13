@@ -65,11 +65,18 @@ public class GameManager : MonoBehaviour
     {
         StopAllCoroutines();
 
+        EnemyLogic.EnemyDie += OnEnemyDie;
+
         _UI.Init_UI(_wheatLabel, _goldLabel, _farmerLabel, _warriorLabel, _builderLabel);
 
         _settlementLogic.InitUnit(_farmerUnit, _starterFarmers);
         _settlementLogic.InitUnit(_warriorUnit, _starterWarriors);
         _settlementLogic.InitUnit(_builderUnit, _starterBuilders);
+    }
+
+    private void OnEnemyDie(int obj)
+    {
+        _settlementLogic.AddGold(obj);
     }
 
     private void Start()
@@ -86,7 +93,13 @@ public class GameManager : MonoBehaviour
         if (_isPaused || _isDead) return;
 
         _timer.RaiseElapsedTime(Time.deltaTime);
+
         if (Input.GetKeyDown(KeyCode.E) && CameraController.IsInteract)
-            Debug.Log("clicked");
+            return;
+    }
+
+    private void OnDestroy()
+    {
+        EnemyLogic.EnemyDie -= OnEnemyDie;
     }
 }

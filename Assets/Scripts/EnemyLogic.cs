@@ -1,9 +1,12 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public abstract class EnemyLogic : MonoBehaviour
 {
     private int _enemyCurrentHealth;
+
+    public static event Action<int> EnemyDie;
 
     public void Init(SO_Enemy EnemyData, TMP_Text HealthText)
     {
@@ -23,8 +26,9 @@ public abstract class EnemyLogic : MonoBehaviour
         _enemyCurrentHealth -= damage;
     }
 
-    public virtual void EnemyDeath()
+    public virtual void EnemyDeath(SO_Enemy EnemyData)
     {
+        EnemyDie?.Invoke(EnemyData.GoldReward);
         Destroy(gameObject);
     }
 
@@ -37,8 +41,8 @@ public abstract class EnemyLogic : MonoBehaviour
 
     public static Vector3 RandomEnemyPos(Transform Player, Transform SafeZone, Transform DangerZone)
     {
-        Vector2 randomDirection = Random.insideUnitCircle.normalized;
-        float randomDistance = Random.Range(SafeZone.localScale.x, DangerZone.localScale.x);
+        Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
+        float randomDistance = UnityEngine.Random.Range(SafeZone.localScale.x, DangerZone.localScale.x);
 
         Vector3 spawnPosition = Player.transform.position + new Vector3(randomDirection.x, 0, randomDirection.y) * randomDistance;
         return spawnPosition;
