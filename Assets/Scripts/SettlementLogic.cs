@@ -1,12 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SettlementLogic
 {
     private float _wheatCount = 150;
     private float _wheatMultiplier = 1f;
-    private int _goldCount = 0;
+    private int _goldCount = 50;
+
+    private float _tempScore = 0f;
 
     private bool _isWalking = false;
 
@@ -25,7 +29,31 @@ public class SettlementLogic
 
     #region Movement
 
+    public void MovementHandler(ref int score)
+    {
+        if (_isWalking)
+        {
+            #region Score
+            _tempScore += Time.deltaTime;
+            if (Mathf.Round(_tempScore) >= 1)
+            {
+                score += 1;
+                _tempScore -= 1;
+            }
+            #endregion
 
+
+        }
+        else
+        {
+
+        }
+    }
+
+    public void ChangeStatement(InputAction.CallbackContext context)
+    {
+        _isWalking = !_isWalking;
+    }
 
     #endregion
 

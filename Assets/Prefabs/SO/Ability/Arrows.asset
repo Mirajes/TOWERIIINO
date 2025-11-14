@@ -9,13 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4dd76f19f85783c429ddef8400a8113f, type: 3}
-  m_Name: Melee
+  m_Script: {fileID: 11500000, guid: bc75f128c7b9b6a41aadec403326feda, type: 3}
+  m_Name: Arrows
   m_EditorClassIdentifier: 
-  _enemyName: Melee
-  _enemyType: 
-  _enemyHealth: 3
-  _enemyDamage: 1
-  _enemySpeed: 3
-  _goldReward: 5
-  _scoreReward: 10
+  _name: Arrows
+  _damage: 4
+  _lifeTime: 1.5
+  _goldCost: 15

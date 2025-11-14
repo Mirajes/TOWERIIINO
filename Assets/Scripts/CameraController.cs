@@ -2,10 +2,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour 
 {
-    [SerializeField] private Camera _playerCamera;
+    [SerializeField] private static Camera _playerCamera;
 
     private static bool _isInteract = false;
     public static bool IsInteract => _isInteract;
+
+    private static bool _isUsingAbiity = false;
+    public static bool IsUsingAbility => _isUsingAbiity;
 
     #region Highlight
     [SerializeField] private LayerMask _interactableLayer;
@@ -55,8 +58,16 @@ public class CameraController : MonoBehaviour
     }
     #endregion
 
-    public Vector3 GetWorldMousePos() => _playerCamera.ScreenToWorldPoint(Input.mousePosition);
+    public static Vector3 GetWorldMousePos()
+    {
+        Ray ray = _playerCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            return hit.point;
+        else
+            return Vector3.zero;
+    }
     private void Start()
     {
         _playerCamera = Camera.main;

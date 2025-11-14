@@ -23,11 +23,11 @@ public class RNG_Events
 
     public void HumanWillBornAgain(SettlementLogic settlement)
     {
-        //settlement.KillUnit()
+
     }
     public void Plague(SettlementLogic settlement)
     {
-
+        //settlement.KillUnit()
     }
 
     public void HarvestSeason(SettlementLogic settlement)

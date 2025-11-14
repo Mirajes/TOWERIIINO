@@ -6,7 +6,7 @@ public abstract class EnemyLogic : MonoBehaviour
 {
     private int _enemyCurrentHealth;
 
-    public static event Action<int> EnemyDie;
+    public static event Action<int, int> EnemyDie;
 
     public void Init(SO_Enemy EnemyData, TMP_Text HealthText)
     {
@@ -28,7 +28,7 @@ public abstract class EnemyLogic : MonoBehaviour
 
     public virtual void EnemyDeath(SO_Enemy EnemyData)
     {
-        EnemyDie?.Invoke(EnemyData.GoldReward);
+        EnemyDie?.Invoke(EnemyData.GoldReward, EnemyData.ScoreReward);
         Destroy(gameObject);
     }
 

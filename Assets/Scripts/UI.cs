@@ -18,7 +18,7 @@ public class UI
         _builderLabel = BuilderLabel;
     }
 
-    public void UI_Updater(SettlementLogic SettlementLogic, SO_Unit so_Farmer, SO_Unit so_Warrior, SO_Unit so_Builder)
+    public void UI_UpdateTab(SettlementLogic SettlementLogic, SO_Unit so_Farmer, SO_Unit so_Warrior, SO_Unit so_Builder)
     {
         _wheatLabel.text = SettlementLogic.WheatCount.ToString();
         _goldLabel.text = SettlementLogic.GoldCount.ToString();

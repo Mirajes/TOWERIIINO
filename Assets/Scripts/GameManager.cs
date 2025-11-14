@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,15 +9,49 @@ public class GameManager : MonoBehaviour
     private Timer _timer = new Timer();
     private SettlementLogic _settlementLogic = new SettlementLogic();
     private UI _UI = new UI();
+    private EnemyController _enemyController = new EnemyController();
     #endregion
 
     #region Game
     [SerializeField] private Transform _player;
+    [SerializeField] private PlayerInput _input;
+
+    private int _score = 0;
+    private int _enemiesKilled = 0;
+    public int Score => _score;
+    public int EnemiesKilled => _enemiesKilled;
+
     private static bool _isPaused = false;
     private static bool _isDead = false;
 
     public static bool IsPaused => _isPaused;
     public static bool IsDead => _isDead;
+    
+    private void SetPause(InputAction.CallbackContext context)
+    {
+        _isPaused = !_isPaused;
+    }
+    #endregion
+
+    #region Ability
+    private static bool _abilityDebounce = false;
+
+    [Header("Abilities")]
+    [SerializeField] private GameObject _arrowsAbility;
+    [SerializeField] private SO_Ability _arrowsData;
+
+    public static void ChangeAbilityDebounce() => _abilityDebounce = !_abilityDebounce;
+
+    private void Arrows()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && !_abilityDebounce && _timer.ElapsedTime - _timer.LT_AbilityArrowsUsed >= _timer.CD_Ability_Arrows
+            && _settlementLogic.GoldCount >= _arrowsData.GoldCost)
+        {
+            ChangeAbilityDebounce();
+            GameObject arrowsAbility = Instantiate(_arrowsAbility);
+            AbilityLogic.CreateAbilityZone(arrowsAbility, _arrowsData, _settlementLogic, _timer);
+        }
+    }
     #endregion
 
     #region UI
@@ -33,7 +67,7 @@ public class GameManager : MonoBehaviour
     {
         while (!_isDead)
         {
-            _UI.UI_Updater(_settlementLogic, _farmerUnit, _warriorUnit, _builderUnit);
+            _UI.UI_UpdateTab(_settlementLogic, _farmerUnit, _warriorUnit, _builderUnit);
             yield return new WaitForSeconds(_timer.CD_UI_Update);
         }
     }
@@ -51,7 +85,7 @@ public class GameManager : MonoBehaviour
     public void HireUnit(SO_Unit so_unit)
     {
         _settlementLogic.HireUnit(so_unit);
-        _UI.UI_Updater(_settlementLogic, _farmerUnit, _warriorUnit, _builderUnit);
+        _UI.UI_UpdateTab(_settlementLogic, _farmerUnit, _warriorUnit, _builderUnit);
     }
     #endregion
 
@@ -60,6 +94,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _safeZone;
     [SerializeField] private GameObject _dangerZone;
     #endregion
+
+    private void OnEnable()
+    {
+        _input.actions["ChangeStatement"].performed += _settlementLogic.ChangeStatement;
+        _input.actions["SetPause"].performed += SetPause;
+    }
 
     private void Awake()
     {
@@ -74,14 +114,15 @@ public class GameManager : MonoBehaviour
         _settlementLogic.InitUnit(_builderUnit, _starterBuilders);
     }
 
-    private void OnEnemyDie(int obj)
+    private void OnEnemyDie(int gold, int score)
     {
-        _settlementLogic.AddGold(obj);
+        _settlementLogic.AddGold(gold);
+        _score += score;
+        _enemiesKilled += 1;
     }
 
     private void Start()
     {
-        //Instantiate(_meleeEnemy, EnemyLogic.RandomEnemyPos(_player, _safeZone.transform, _dangerZone.transform), Quaternion.identity);
         StartCoroutine(UI_Updater());
         StartCoroutine(_settlementLogic.UnitUpdater(_timer));
         StartCoroutine(_settlementLogic.WheatCollectUpdater(_timer));
@@ -94,8 +135,20 @@ public class GameManager : MonoBehaviour
 
         _timer.RaiseElapsedTime(Time.deltaTime);
 
+        _enemyController.RaiseSpawnrate();
+
+        _settlementLogic.MovementHandler(ref _score);
+
         if (Input.GetKeyDown(KeyCode.E) && CameraController.IsInteract)
             return;
+
+        Arrows();
+    }
+
+    private void OnDisable()
+    {
+        _input.actions["ChangeStatement"].performed -= _settlementLogic.ChangeStatement;
+        _input.actions["SetPause"].performed -= SetPause;
     }
 
     private void OnDestroy()

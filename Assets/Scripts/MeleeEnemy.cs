@@ -24,9 +24,12 @@ public class MeleeEnemy : EnemyLogic
         if (GameManager.IsPaused || GameManager.IsDead) return;
 
         LookAtCamera(_playerCamera, _healthBox);
+        ChangeHealthText(_healthText);
 
         if (IsAlive())
             MoveEnemy(_target, _enemyData.EnemySpeed);
+        else
+            EnemyDeath(_enemyData);
     }
     private void OnTriggerEnter(Collider col)
     {

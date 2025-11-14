@@ -10,6 +10,7 @@ public class SO_Enemy : ScriptableObject
     [SerializeField] private int _enemyDamage;
     [SerializeField] private float _enemySpeed;
     [SerializeField] private int _goldReward;
+    [SerializeField] private int _scoreReward;
 
     public string EnemyName => _enemyName;
     public string EnemyType => _enemyType;
@@ -17,5 +18,6 @@ public class SO_Enemy : ScriptableObject
     public int EnemyDamage => _enemyDamage;
     public float EnemySpeed => _enemySpeed;
     public int GoldReward => _goldReward;
+    public int ScoreReward => _scoreReward;
 
 }

@@ -18,3 +18,4 @@ MonoBehaviour:
   _enemyDamage: 1
   _enemySpeed: 2
   _goldReward: 15
+  _scoreReward: 30
