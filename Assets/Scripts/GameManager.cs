@@ -127,6 +127,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(_settlementLogic.UnitUpdater(_timer));
         StartCoroutine(_settlementLogic.WheatCollectUpdater(_timer));
         StartCoroutine(_settlementLogic.WheatEatUpdater(_timer));
+
+        _enemyController.Init();
     }
 
     private void Update()
@@ -136,6 +138,7 @@ public class GameManager : MonoBehaviour
         _timer.RaiseElapsedTime(Time.deltaTime);
 
         _enemyController.RaiseSpawnrate();
+        _enemyController.UpdateSpawnrates();
 
         _settlementLogic.MovementHandler(ref _score);
 

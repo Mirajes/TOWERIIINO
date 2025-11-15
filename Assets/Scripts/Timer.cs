@@ -30,6 +30,13 @@ public class Timer
     public float CD_UnitHire => _CD_unitHire;
     public float CD_mult_UnitHire => _CD_mult_unitHire;
 
+    // Enemy
+    private float _CD_enemyRespawn = 5f;
+    private float _enemy_changeSpawnrateTime = 10f;
+
+    public float Enemy_ChangeSpawnrateTime => _enemy_changeSpawnrateTime;
+    public float CD_EnemyRepsawn => _CD_enemyRespawn;
+
     // UI
     private float _CD_UI_update = 0.2f;
 
