@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -62,17 +63,23 @@ public class SettlementLogic
     {
         while (!GameManager.IsDead)
         {
+            float cd = timer.CD_UnitHire / timer.CD_mult_UnitHire;
             if (_orderList.Count > 0)
             {
-                float cd = timer.CD_UnitHire / timer.CD_mult_UnitHire;
-
-                yield return new WaitForSeconds(cd);
+                #region PauseChecker
+                float time = 0f;
+                while (time < cd)
+                {
+                    yield return new WaitUntil(() => !GameManager.IsPaused);
+                    time += Time.deltaTime;
+                }
+                #endregion
                 SO_Unit so_unit = _orderList[0];
                 _orderList.RemoveAt(0);
                 CreateUnit(so_unit, 1);
             }
 
-            yield return new WaitUntil(() => !GameManager.IsPaused);
+            yield return null;
         }
     }
 
@@ -113,32 +120,70 @@ public class SettlementLogic
 
     public IEnumerator WheatCollectUpdater(Timer timer)
     {
+        bool debounce = false;
+
         while (!GameManager.IsDead)
         {
-            if (!_isWalking)
+            if (!debounce && !_isWalking)
             {
+                debounce = true;
                 float cd = timer.CD_WheatCollect * timer.CD_mult_WheatCollect;
-                yield return new WaitForSeconds(cd);
-                
-                if (_isWalking) yield return null;
+                #region PauseChecker
+                float time = 0f;
+                while (time < cd)
+                {
+                    yield return new WaitUntil(() => !GameManager.IsPaused);
+                    if (_isWalking)
+                    {
+                        yield return null;
+                        debounce = false;
+                        time = 0f;
+                    }
+
+                    time += Time.deltaTime;
+                }
+
+                #endregion
 
                 CollectWheat(_wheatMultiplier);
+                debounce = false;
+                yield return null;
+            } else
+            {
+                yield return null;
             }
 
-            yield return new WaitUntil(() => !GameManager.IsPaused);
         }
     }
 
     public IEnumerator WheatEatUpdater(Timer timer)
     {
+        bool debounce = false;
+
         while (!GameManager.IsDead)
         {
-            float cd = timer.CD_WheatEat * timer.CD_mult_WheatEat;
-            yield return new WaitForSeconds(cd);
+            if (!debounce)
+            {
+                debounce = true;
 
-            RemoveWheat(CountRawWheat(), 1f);
+                float cd = timer.CD_WheatEat * timer.CD_mult_WheatEat;
+                float time = 0f;
 
-            yield return new WaitUntil(() => !GameManager.IsPaused);
+                while (time < cd)
+                {
+                    yield return new WaitUntil(() => !GameManager.IsPaused);
+                    time += Time.deltaTime;
+                }
+
+                RemoveWheat(CountRawWheat(), 1f);
+
+                debounce = false;
+                yield return null;;
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 

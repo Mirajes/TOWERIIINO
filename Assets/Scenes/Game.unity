@@ -345,7 +345,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 98.15
+  m_fontSize: 51.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -552,66 +552,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 170130182}
   m_CullTransparentMesh: 1
---- !u!1001 &219444894
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 12.16
-      objectReference: {fileID: 0}
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.37
-      objectReference: {fileID: 0}
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3446310273683297528, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3654813806479996197, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      propertyPath: m_Name
-      value: Furry
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 111502928434292492, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
 --- !u!1 &309401356
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,8 +917,12 @@ MonoBehaviour:
   _starterWarriors: 15
   _builderUnit: {fileID: 11400000, guid: c9ab1a6b031a69a47a9e9e3a1b5be870, type: 2}
   _starterBuilders: 0
-  _safeZone: {fileID: 763455660}
-  _dangerZone: {fileID: 1411596766}
+  _enemies:
+  - {fileID: 3654813806479996197, guid: c326fdbe12d84aa419ed76a5bb079d84, type: 3}
+  - {fileID: 2674179530571906492, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
+  _enemyFolder: {fileID: 1980322877}
+  _safeZone: {fileID: 763455664}
+  _dangerZone: {fileID: 1411596770}
 --- !u!114 &388160338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1439,7 +1383,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 95.25
+  m_fontSize: 47.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2573,7 +2517,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.8
+  m_fontSize: 11.35
   m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2922,7 +2866,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.65
+  m_fontSize: 11.65
   m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3293,70 +3237,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1352081327}
   m_CullTransparentMesh: 1
---- !u!1001 &1358762508
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 8.117757
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -4.761502
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 28087630195564706, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2674179530571906492, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      propertyPath: m_Name
-      value: Tank
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8222999880558250591, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: 176355d73a758b0459cb048f4fffe0c9, type: 3}
 --- !u!1 &1407749950
 GameObject:
   m_ObjectHideFlags: 0
@@ -3736,7 +3616,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.9
+  m_fontSize: 11.4
   m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4895,7 +4775,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 97.7
+  m_fontSize: 50.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5318,7 +5198,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.6144025, y: 0.122400284}
   m_AnchorMax: {x: 0.94880503, y: 0.90119946}
-  m_AnchoredPosition: {x: -1.6497192, y: -1.2647514}
+  m_AnchoredPosition: {x: -1.6497192, y: -1.2647533}
   m_SizeDelta: {x: -0.70069885, y: -0.6399994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1983994431
@@ -5376,7 +5256,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 97.3
+  m_fontSize: 50.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5512,7 +5392,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 95.25
+  m_fontSize: 47.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5874,6 +5754,4 @@ SceneRoots:
   - {fileID: 2139469132}
   - {fileID: 5238321093709044499}
   - {fileID: 1940288719}
-  - {fileID: 219444894}
   - {fileID: 594069154}
-  - {fileID: 1358762508}

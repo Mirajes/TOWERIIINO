@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class EnemyController
 {
+    #region Spawnrate
     private float _baseSpawnrate = 1f;
 
     private float _currentSpawnrate;
@@ -32,7 +34,7 @@ public class EnemyController
         {
             if (_currentSpawnrate < _movingSpawnrate)
             {
-                _currentSpawnrate += Time.deltaTime / timer.Enemy_ChangeSpawnrateTime;
+                _currentSpawnrate += Time.deltaTime / timer.Enemy_SpawnrateTimeToChange;
             }
             else
             {
@@ -43,7 +45,7 @@ public class EnemyController
         {
             if (_currentSpawnrate > _standingSpawnrate)
             {
-                _currentSpawnrate -= Time.deltaTime / timer.Enemy_ChangeSpawnrateTime;
+                _currentSpawnrate -= Time.deltaTime / timer.Enemy_SpawnrateTimeToChange;
             }
             else
             {
@@ -51,4 +53,25 @@ public class EnemyController
             }
         }
     }
+    #endregion
+
+    #region Spawn
+
+    public Vector3 EnemyPos(Transform player, Transform safeZone, Transform dangerZone)
+    {
+        Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
+        float randomDistance = UnityEngine.Random.Range(safeZone.localScale.x, dangerZone.localScale.x);
+
+        Vector3 spawnPosition = player.transform.position + new Vector3(
+            randomDirection.x, 0, randomDirection.y) * randomDistance;
+
+        return spawnPosition;
+    }
+
+    public int RandomIndex(List<GameObject> enemiesList)
+    {
+        return UnityEngine.Random.Range(0, enemiesList.Count);
+    }
+
+    #endregion
 }

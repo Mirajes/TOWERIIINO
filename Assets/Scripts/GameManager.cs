@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -91,8 +92,10 @@ public class GameManager : MonoBehaviour
 
     #region Enemy
     [Header("Enemy")]
-    [SerializeField] private GameObject _safeZone;
-    [SerializeField] private GameObject _dangerZone;
+    [SerializeField] private List<GameObject> _enemies = new List<GameObject>();
+    [SerializeField] private Transform _enemyFolder;
+    [SerializeField] private Transform _safeZone;
+    [SerializeField] private Transform _dangerZone;
     #endregion
 
     private void OnEnable()
@@ -137,10 +140,19 @@ public class GameManager : MonoBehaviour
 
         _timer.RaiseElapsedTime(Time.deltaTime);
 
+        _settlementLogic.MovementHandler(ref _score);
+
         _enemyController.RaiseSpawnrate();
         _enemyController.UpdateSpawnrates();
 
-        _settlementLogic.MovementHandler(ref _score);
+        if (_timer.LT_EnemySpawned < _timer.CD_EnemyRespawn / _enemyController.CurrentSpawnrate)
+        {
+            _timer.Set_LT_EnemySpawn(_timer.ElapsedTime);
+            Instantiate(_enemies[_enemyController.RandomIndex(_enemies)], _enemyController.EnemyPos(_player, _safeZone, _dangerZone), Quaternion.identity, _enemyFolder);
+
+        }
+
+        
 
         if (Input.GetKeyDown(KeyCode.E) && CameraController.IsInteract)
             return;

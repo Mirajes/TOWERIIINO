@@ -34,7 +34,7 @@ public abstract class AbilityLogic : MonoBehaviour
         {
             _active = true;
             _settlement.RemoveGold(_abilityData.GoldCost);
-            _timer.SetAbility_LT_Arrows(_timer.ElapsedTime);
+            _timer.Set_LT_AbilityArrowsUsed(_timer.ElapsedTime);
             AbilityInit(_ability.GetComponent<Collider>(), _abilityData.LifeTime);
             StartCoroutine(AbilityIsWorking(_ability, _lifeTime));
         }

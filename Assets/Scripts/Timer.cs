@@ -32,10 +32,12 @@ public class Timer
 
     // Enemy
     private float _CD_enemyRespawn = 5f;
-    private float _enemy_changeSpawnrateTime = 10f;
+    private float _enemy_spawnrateTimeToChange = 10f;
+    private float _LT_enemySpawned = 0f;
 
-    public float Enemy_ChangeSpawnrateTime => _enemy_changeSpawnrateTime;
-    public float CD_EnemyRepsawn => _CD_enemyRespawn;
+    public float Enemy_SpawnrateTimeToChange => _enemy_spawnrateTimeToChange;
+    public float CD_EnemyRespawn => _CD_enemyRespawn;
+    public float LT_EnemySpawned => _LT_enemySpawned;
 
     // UI
     private float _CD_UI_update = 0.2f;
@@ -61,5 +63,6 @@ public class Timer
     public void ChangeMultWheatCollect(float NewMultWheatCollect) => _CD_mult_wheatCollect = NewMultWheatCollect;
     public void ChangeMultWheatEat(float NewMultWheatEat) => _CD_mult_wheatEat = NewMultWheatEat;
 
-    public void SetAbility_LT_Arrows(float elapsedTime) => _LT_abilityArrowsUsed = elapsedTime;
+    public void Set_LT_AbilityArrowsUsed(float elapsedTime) => _LT_abilityArrowsUsed = elapsedTime;
+    public void Set_LT_EnemySpawn(float elapsedTime) => _LT_enemySpawned = elapsedTime;
 }
