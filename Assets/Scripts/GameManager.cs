@@ -144,8 +144,9 @@ public class GameManager : MonoBehaviour
 
         _enemyController.RaiseSpawnrate();
         _enemyController.UpdateSpawnrates();
+        _enemyController.RaiseCurrentSpawnrate(_settlementLogic.IsWalking, _timer);
 
-        if (_timer.LT_EnemySpawned < _timer.CD_EnemyRespawn / _enemyController.CurrentSpawnrate)
+        if (_timer.LT_EnemySpawned < _timer.ElapsedTime - (_timer.CD_EnemyRespawn / _enemyController.CurrentSpawnrate))
         {
             _timer.Set_LT_EnemySpawn(_timer.ElapsedTime);
             Instantiate(_enemies[_enemyController.RandomIndex(_enemies)], _enemyController.EnemyPos(_player, _safeZone, _dangerZone), Quaternion.identity, _enemyFolder);

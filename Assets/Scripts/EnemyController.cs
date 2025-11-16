@@ -12,7 +12,7 @@ public class EnemyController
     private float _movingSpawnrate;
     private float _standingSpawnrate;
 
-    private float _mult_spawnrate = 30f;
+    private float _mult_spawnrate = 60f;
     private float _mult_movingSpawnrate = 0.75f;
     private float _mult_standingSpawnrate = 1.5f;
 
@@ -20,21 +20,21 @@ public class EnemyController
 
     public void Init() => _currentSpawnrate = _baseSpawnrate;
 
+    public void RaiseSpawnrate() => _baseSpawnrate += (Time.deltaTime / _mult_spawnrate);
+
     public void UpdateSpawnrates()
     {
         _movingSpawnrate = _baseSpawnrate * _mult_movingSpawnrate;
         _standingSpawnrate = _baseSpawnrate * _mult_standingSpawnrate;
     }
 
-    public void RaiseSpawnrate() => _baseSpawnrate += Time.deltaTime / _mult_spawnrate;
-
     public void RaiseCurrentSpawnrate(bool isWalking, Timer timer)
     {
         if (isWalking)
         {
-            if (_currentSpawnrate < _movingSpawnrate)
+            if (_currentSpawnrate > _movingSpawnrate)
             {
-                _currentSpawnrate += Time.deltaTime / timer.Enemy_SpawnrateTimeToChange;
+                _currentSpawnrate -= Time.deltaTime / timer.Enemy_SpawnrateTimeToChange;
             }
             else
             {
@@ -43,9 +43,9 @@ public class EnemyController
         }
         else
         {
-            if (_currentSpawnrate > _standingSpawnrate)
+            if (_currentSpawnrate < _standingSpawnrate)
             {
-                _currentSpawnrate -= Time.deltaTime / timer.Enemy_SpawnrateTimeToChange;
+                _currentSpawnrate += Time.deltaTime / timer.Enemy_SpawnrateTimeToChange;
             }
             else
             {
