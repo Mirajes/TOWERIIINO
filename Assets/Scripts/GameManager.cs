@@ -88,6 +88,11 @@ public class GameManager : MonoBehaviour
         _settlementLogic.HireUnit(so_unit);
         _UI.UI_UpdateTab(_settlementLogic, _farmerUnit, _warriorUnit, _builderUnit);
     }
+
+    private void SettlementLogic_UnitHit(int enemyHealth)
+    {
+        
+    }
     #endregion
 
     #region Enemy
@@ -96,6 +101,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform _enemyFolder;
     [SerializeField] private Transform _safeZone;
     [SerializeField] private Transform _dangerZone;
+
+    private void OnEnemyDie(int gold, int score)
+    {
+        _settlementLogic.AddGold(gold);
+        _score += score;
+        _enemiesKilled += 1;
+    }
     #endregion
 
     private void OnEnable()
@@ -109,6 +121,7 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
 
         EnemyLogic.EnemyDie += OnEnemyDie;
+        SettlementLogic.UnitHit += SettlementLogic_UnitHit;
 
         _UI.Init_UI(_wheatLabel, _goldLabel, _farmerLabel, _warriorLabel, _builderLabel);
 
@@ -117,12 +130,7 @@ public class GameManager : MonoBehaviour
         _settlementLogic.InitUnit(_builderUnit, _starterBuilders);
     }
 
-    private void OnEnemyDie(int gold, int score)
-    {
-        _settlementLogic.AddGold(gold);
-        _score += score;
-        _enemiesKilled += 1;
-    }
+
 
     private void Start()
     {
@@ -153,10 +161,10 @@ public class GameManager : MonoBehaviour
 
         }
 
-        
-
         if (Input.GetKeyDown(KeyCode.E) && CameraController.IsInteract)
-            return;
+        {
+
+        }
 
         Arrows();
     }

@@ -32,7 +32,7 @@ public class Timer
 
     // Enemy
     private float _CD_enemyRespawn = 5f;
-    private float _enemy_spawnrateTimeToChange = 10f;
+    private float _enemy_spawnrateTimeToChange = 20f;
     private float _LT_enemySpawned = 0f;
 
     public float Enemy_SpawnrateTimeToChange => _enemy_spawnrateTimeToChange;

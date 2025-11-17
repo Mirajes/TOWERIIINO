@@ -17,5 +17,5 @@ MonoBehaviour:
   _enemyHealth: 5
   _enemyDamage: 1
   _enemySpeed: 2
-  _goldReward: 15
+  _goldReward: 30
   _scoreReward: 30

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +21,8 @@ public class SettlementLogic
     public float WheatMultiplier => _wheatMultiplier;
     public int GoldCount => _goldCount;
     public bool IsWalking => _isWalking;
+
+    public static event Action<int> UnitHit;
 
     public void InitUnit(SO_Unit so_unit, int count)
     {
@@ -87,9 +88,10 @@ public class SettlementLogic
 
     public void HireUnit(SO_Unit so_unit)
     {
-        if (IsEnoughForHire(so_unit, _wheatCount))
+        if (IsEnoughForHire(so_unit, _wheatCount, _goldCount))
         {
             RemoveWheat(so_unit.WheatPrice, 1f);
+            RemoveGold(so_unit.GoldPrice);
             AddUnitToOrder(so_unit);
         }
     }
@@ -100,7 +102,8 @@ public class SettlementLogic
         _settlementList.Find(x => x.UnitType == so_unit).RemoveUnit(count);
     }
 
-    private bool IsEnoughForHire(SO_Unit so_unit, float wheatCount) => wheatCount >= so_unit.UnitWheatFarm;
+    private bool IsEnoughForHire(SO_Unit so_unit, float wheatCount, int goldCount) => wheatCount >= so_unit.UnitWheatFarm
+        && goldCount >= so_unit.GoldPrice;
     private void AddUnitToOrder(SO_Unit so_unit) => _orderList.Add(so_unit);
     private void CreateUnit(SO_Unit so_unit, int count)
     {
@@ -113,6 +116,40 @@ public class SettlementLogic
         {
             _settlementList.Add(new Unit(so_unit, count));
         }
+    }
+
+    // :)
+    private SO_Unit FindAliveUnit()
+    {
+        SO_Unit aliveUnit = null;
+
+        foreach (var item in _settlementList)
+        {
+            SO_Unit currentUnit;
+
+            if (item.UnitType.UnitName == "Warrior")
+            {
+                currentUnit = item.UnitType;
+                 if (FindUnitCount(currentUnit) > 0)
+                    aliveUnit = currentUnit;
+            }
+            else if (item.UnitType.UnitName == "Farmer")
+            {
+                currentUnit = item.UnitType;
+                if (FindUnitCount(currentUnit) > 0)
+                    aliveUnit = currentUnit;
+            }
+            else if (item.UnitType.UnitName == "Builder")
+            {
+                currentUnit = item.UnitType;
+                if (FindUnitCount(currentUnit) > 0)
+                    aliveUnit = currentUnit;
+            }
+            else
+                aliveUnit = null;
+        }
+
+        return aliveUnit;
     }
     #endregion
 
@@ -212,14 +249,10 @@ public class SettlementLogic
     private void AddWheat(float wheatToAdd, float wheatAddMultiplier) => _wheatCount += wheatToAdd * wheatAddMultiplier;
 
     private void RemoveWheat(float wheatToEat, float wheatEatMultiplier) => _wheatCount -= wheatToEat * wheatEatMultiplier;
-
-
-
     #endregion
 
     #region Gold
     public void AddGold(int goldAmount) => _goldCount += goldAmount;
-    
     public void RemoveGold(int goldAmount) => _goldCount -= goldAmount;
     #endregion
 }

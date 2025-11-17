@@ -9,6 +9,7 @@ public class SO_Unit : ScriptableObject
     [SerializeField] private int _unitDamage;
 
     [SerializeField] private int _unitWheatPrice;
+    [SerializeField] private int _unitGoldPrice;
     [SerializeField] private int _unitWheatFarm;
     [SerializeField] private int _unitWheatConsumption; // potreblenie
     
@@ -16,6 +17,7 @@ public class SO_Unit : ScriptableObject
     public string UnitDescription => _unitDescription;
     public int UnitDamage => _unitDamage;
     public int WheatPrice => _unitWheatPrice;
+    public int GoldPrice => _unitGoldPrice;
     public int UnitWheatFarm => _unitWheatFarm;
     public int UnitWheatConsumption => _unitWheatConsumption;
 }

@@ -16,5 +16,6 @@ MonoBehaviour:
   _unitDescription: 
   _unitDamage: 3
   _unitWheatPrice: 10
+  _unitGoldPrice: 5
   _unitWheatFarm: 0
   _unitWheatConsumption: 3
