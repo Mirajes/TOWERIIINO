@@ -31,11 +31,12 @@ public class MeleeEnemy : EnemyLogic
         else
             EnemyDeath(_enemyData);
     }
+
     private void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "Player")
         {
-            
+            SettlementLogic.UnitHit?.Invoke(this);
             EnemyDeath(_enemyData);
         }
     }

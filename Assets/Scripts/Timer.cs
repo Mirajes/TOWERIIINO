@@ -24,11 +24,17 @@ public class Timer
 
 
     // Unit
-    private float _CD_unitHire = 3f;
+    private float _CD_unitHire = 1f;
     private float _CD_mult_unitHire = 1f;
 
     public float CD_UnitHire => _CD_unitHire;
     public float CD_mult_UnitHire => _CD_mult_unitHire;
+
+    private float _CD_goldFarm = 3f;
+    private float _CD_mult_goldFarm = 1f;
+
+    public float CD_GoldFarm => _CD_goldFarm;
+    public float CD_mult_GoldFarm => _CD_mult_goldFarm;
 
     // Enemy
     private float _CD_enemyRespawn = 5f;

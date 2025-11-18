@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class EnemyLogic : MonoBehaviour
 {
-    private int _enemyCurrentHealth;
+    protected int _enemyCurrentHealth;
 
     public static event Action<int, int> EnemyDie;
 

@@ -88,11 +88,6 @@ public class GameManager : MonoBehaviour
         _settlementLogic.HireUnit(so_unit);
         _UI.UI_UpdateTab(_settlementLogic, _farmerUnit, _warriorUnit, _builderUnit);
     }
-
-    private void SettlementLogic_UnitHit(int enemyHealth)
-    {
-        
-    }
     #endregion
 
     #region Enemy
@@ -121,12 +116,12 @@ public class GameManager : MonoBehaviour
         StopAllCoroutines();
 
         EnemyLogic.EnemyDie += OnEnemyDie;
-        SettlementLogic.UnitHit += SettlementLogic_UnitHit;
+        SettlementLogic.UnitHit += _settlementLogic.ExchangeUnitEnemy;
 
         _UI.Init_UI(_wheatLabel, _goldLabel, _farmerLabel, _warriorLabel, _builderLabel);
 
-        _settlementLogic.InitUnit(_farmerUnit, _starterFarmers);
         _settlementLogic.InitUnit(_warriorUnit, _starterWarriors);
+        _settlementLogic.InitUnit(_farmerUnit, _starterFarmers);
         _settlementLogic.InitUnit(_builderUnit, _starterBuilders);
     }
 
@@ -138,6 +133,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(_settlementLogic.UnitUpdater(_timer));
         StartCoroutine(_settlementLogic.WheatCollectUpdater(_timer));
         StartCoroutine(_settlementLogic.WheatEatUpdater(_timer));
+        StartCoroutine(_settlementLogic.GoldenRushUpdater(_timer, _builderUnit));
 
         _enemyController.Init();
     }
@@ -161,10 +157,10 @@ public class GameManager : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && CameraController.IsInteract)
-        {
+        //if (Input.GetKeyDown(KeyCode.E) && CameraController.IsInteract)
+        //{
 
-        }
+        //}
 
         Arrows();
     }
@@ -179,4 +175,5 @@ public class GameManager : MonoBehaviour
     {
         EnemyLogic.EnemyDie -= OnEnemyDie;
     }
+
 }

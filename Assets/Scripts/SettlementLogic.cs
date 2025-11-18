@@ -22,12 +22,7 @@ public class SettlementLogic
     public int GoldCount => _goldCount;
     public bool IsWalking => _isWalking;
 
-    public static event Action<int> UnitHit;
-
-    public void InitUnit(SO_Unit so_unit, int count)
-    {
-        CreateUnit(so_unit, count);
-    }
+    public static Action<EnemyLogic> UnitHit;
 
     #region Movement
 
@@ -60,6 +55,11 @@ public class SettlementLogic
     #endregion
 
     #region Unit
+    public void InitUnit(SO_Unit so_unit, int count)
+    {
+        CreateUnit(so_unit, count);
+    }
+
     public IEnumerator UnitUpdater(Timer timer)
     {
         while (!GameManager.IsDead)
@@ -130,20 +130,26 @@ public class SettlementLogic
             if (item.UnitType.UnitName == "Warrior")
             {
                 currentUnit = item.UnitType;
-                 if (FindUnitCount(currentUnit) > 0)
+                if (FindUnitCount(currentUnit) > 0)
                     aliveUnit = currentUnit;
+
+                break;
             }
             else if (item.UnitType.UnitName == "Farmer")
             {
                 currentUnit = item.UnitType;
                 if (FindUnitCount(currentUnit) > 0)
                     aliveUnit = currentUnit;
+
+                break;
             }
             else if (item.UnitType.UnitName == "Builder")
             {
                 currentUnit = item.UnitType;
                 if (FindUnitCount(currentUnit) > 0)
                     aliveUnit = currentUnit;
+
+                break;
             }
             else
                 aliveUnit = null;
@@ -151,6 +157,17 @@ public class SettlementLogic
 
         return aliveUnit;
     }
+
+    public void ExchangeUnitEnemy(EnemyLogic enemy)
+    {
+        SO_Unit aliveUnit = FindAliveUnit();
+        if (aliveUnit != null)
+        {
+            enemy.TakeDamage(aliveUnit.UnitDamage);
+            KillUnit(aliveUnit, 1);
+        }
+    }
+
     #endregion
 
     #region Wheat
@@ -254,5 +271,28 @@ public class SettlementLogic
     #region Gold
     public void AddGold(int goldAmount) => _goldCount += goldAmount;
     public void RemoveGold(int goldAmount) => _goldCount -= goldAmount;
+
+    public IEnumerator GoldenRushUpdater(Timer timer, SO_Unit builder)
+    {
+        while (!GameManager.IsDead)
+        {
+            float cd = timer.CD_GoldFarm * timer.CD_mult_GoldFarm;
+            if (FindUnitCount(builder) > 0)
+            {
+                #region PauseChecker
+                float time = 0f;
+                while (time < cd)
+                {
+                    yield return new WaitUntil(() => !GameManager.IsPaused);
+                    time += Time.deltaTime;
+                }
+                #endregion
+
+                AddGold(FindUnitCount(builder) * 1); // 1 -- gold farm
+            }
+
+            yield return null;
+        }
+    }
     #endregion
 }
