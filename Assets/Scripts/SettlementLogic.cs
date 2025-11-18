@@ -100,6 +100,8 @@ public class SettlementLogic
     {
         if (so_unit == null) return;
         _settlementList.Find(x => x.UnitType == so_unit).RemoveUnit(count);
+
+        CheckForEndGame();
     }
 
     private bool IsEnoughForHire(SO_Unit so_unit, float wheatCount, int goldCount) => wheatCount >= so_unit.UnitWheatFarm
@@ -165,6 +167,18 @@ public class SettlementLogic
         {
             enemy.TakeDamage(aliveUnit.UnitDamage);
             KillUnit(aliveUnit, 1);
+        }
+    }
+
+    private void CheckForEndGame()
+    {
+        int unitCount = 0;
+        foreach (var item in _settlementList)
+            unitCount += item.Count;
+
+        if (unitCount <= 0)
+        {
+            GameManager.GameEND?.Invoke();
         }
     }
 

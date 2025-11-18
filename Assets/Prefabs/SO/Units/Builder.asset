@@ -15,7 +15,7 @@ MonoBehaviour:
   _unitName: Builder
   _unitDescription: 
   _unitDamage: 2
-  _unitWheatPrice: 5
+  _unitWheatPrice: 15
   _unitGoldPrice: 5
   _unitWheatFarm: 1
-  _unitWheatConsumption: 3
+  _unitWheatConsumption: 7

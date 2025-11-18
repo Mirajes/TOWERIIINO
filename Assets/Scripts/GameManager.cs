@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
     public int Score => _score;
     public int EnemiesKilled => _enemiesKilled;
 
+    public static Action GameEND;
+
     private static bool _isPaused = false;
     private static bool _isDead = false;
 
@@ -32,6 +35,14 @@ public class GameManager : MonoBehaviour
     {
         _isPaused = !_isPaused;
     }
+
+
+    private void OnGameEND()
+    {
+        _isDead = true;
+        _endScreen.SetActive(true);
+    }
+
     #endregion
 
     #region Ability
@@ -64,6 +75,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _warriorLabel;
     [SerializeField] private TMP_Text _builderLabel;
 
+    [SerializeField] private GameObject _endScreen;
     private IEnumerator UI_Updater()
     {
         while (!_isDead)
@@ -117,6 +129,7 @@ public class GameManager : MonoBehaviour
 
         EnemyLogic.EnemyDie += OnEnemyDie;
         SettlementLogic.UnitHit += _settlementLogic.ExchangeUnitEnemy;
+        GameEND += OnGameEND;
 
         _UI.Init_UI(_wheatLabel, _goldLabel, _farmerLabel, _warriorLabel, _builderLabel);
 
@@ -124,7 +137,6 @@ public class GameManager : MonoBehaviour
         _settlementLogic.InitUnit(_farmerUnit, _starterFarmers);
         _settlementLogic.InitUnit(_builderUnit, _starterBuilders);
     }
-
 
 
     private void Start()

@@ -15,7 +15,7 @@ MonoBehaviour:
   _unitName: Farmer
   _unitDescription: 
   _unitDamage: 1
-  _unitWheatPrice: 3
+  _unitWheatPrice: 15
   _unitGoldPrice: 3
-  _unitWheatFarm: 15
-  _unitWheatConsumption: 2
+  _unitWheatFarm: 20
+  _unitWheatConsumption: 5

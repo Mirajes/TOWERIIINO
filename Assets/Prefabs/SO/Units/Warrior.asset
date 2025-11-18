@@ -15,7 +15,7 @@ MonoBehaviour:
   _unitName: Warrior
   _unitDescription: 
   _unitDamage: 3
-  _unitWheatPrice: 10
+  _unitWheatPrice: 30
   _unitGoldPrice: 5
   _unitWheatFarm: 0
-  _unitWheatConsumption: 3
+  _unitWheatConsumption: 15
