@@ -41,6 +41,24 @@ public class GameManager : MonoBehaviour
     {
         _isDead = true;
         _endScreen.SetActive(true);
+        StopAllCoroutines();
+    }
+
+    public void InitGame()
+    {
+        StopAllCoroutines();
+
+        _settlementLogic.InitUnit(_warriorUnit, _starterWarriors);
+        _settlementLogic.InitUnit(_farmerUnit, _starterFarmers);
+        _settlementLogic.InitUnit(_builderUnit, _starterBuilders);
+
+        StartCoroutine(UI_Updater());
+        StartCoroutine(_settlementLogic.UnitUpdater(_timer));
+        StartCoroutine(_settlementLogic.WheatCollectUpdater(_timer));
+        StartCoroutine(_settlementLogic.WheatEatUpdater(_timer));
+        StartCoroutine(_settlementLogic.GoldenRushUpdater(_timer, _builderUnit));
+
+        _enemyController.Init();
     }
 
     #endregion
@@ -129,8 +147,6 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        StopAllCoroutines();
-
         EnemyLogic.EnemyDie += OnEnemyDie;
         SettlementLogic.UnitHit += _settlementLogic.ExchangeUnitEnemy;
         GameEND += OnGameEND;
@@ -139,22 +155,12 @@ public class GameManager : MonoBehaviour
         _UI.UI_Init_Unit(_farmerUnit, _farmerPanel);
         _UI.UI_Init_Unit(_warriorUnit, _warriorPanel);
         _UI.UI_Init_Unit(_builderUnit, _builderPanel);
-
-        _settlementLogic.InitUnit(_warriorUnit, _starterWarriors);
-        _settlementLogic.InitUnit(_farmerUnit, _starterFarmers);
-        _settlementLogic.InitUnit(_builderUnit, _starterBuilders);
     }
 
 
     private void Start()
     {
-        StartCoroutine(UI_Updater());
-        StartCoroutine(_settlementLogic.UnitUpdater(_timer));
-        StartCoroutine(_settlementLogic.WheatCollectUpdater(_timer));
-        StartCoroutine(_settlementLogic.WheatEatUpdater(_timer));
-        StartCoroutine(_settlementLogic.GoldenRushUpdater(_timer, _builderUnit));
-
-        _enemyController.Init();
+        InitGame();
     }
 
     private void Update()
@@ -188,11 +194,15 @@ public class GameManager : MonoBehaviour
     {
         _input.actions["ChangeStatement"].performed -= _settlementLogic.ChangeStatement;
         _input.actions["SetPause"].performed -= SetPause;
+        
+        EnemyLogic.EnemyDie -= OnEnemyDie;
+        SettlementLogic.UnitHit -= _settlementLogic.ExchangeUnitEnemy;
+        GameEND -= OnGameEND;
     }
 
     private void OnDestroy()
     {
-        EnemyLogic.EnemyDie -= OnEnemyDie;
+
     }
 
 }

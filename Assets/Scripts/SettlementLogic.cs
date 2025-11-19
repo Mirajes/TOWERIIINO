@@ -127,30 +127,19 @@ public class SettlementLogic
 
         foreach (var item in _settlementList)
         {
-            SO_Unit currentUnit;
-
-            if (item.UnitType.UnitName == "Warrior")
+            if (item.UnitType.UnitName == "Warrior" && FindUnitCount(item.UnitType) > 0)
             {
-                currentUnit = item.UnitType;
-                if (FindUnitCount(currentUnit) > 0)
-                    aliveUnit = currentUnit;
-
+                aliveUnit = item.UnitType;
                 break;
             }
-            else if (item.UnitType.UnitName == "Farmer")
+            else if (item.UnitType.UnitName == "Farmer" && FindUnitCount(item.UnitType) > 0)
             {
-                currentUnit = item.UnitType;
-                if (FindUnitCount(currentUnit) > 0)
-                    aliveUnit = currentUnit;
-
+                aliveUnit = item.UnitType;
                 break;
             }
-            else if (item.UnitType.UnitName == "Builder")
+            else if (item.UnitType.UnitName == "Builder" && FindUnitCount(item.UnitType) > 0)
             {
-                currentUnit = item.UnitType;
-                if (FindUnitCount(currentUnit) > 0)
-                    aliveUnit = currentUnit;
-
+                aliveUnit = item.UnitType;
                 break;
             }
             else
