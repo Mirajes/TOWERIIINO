@@ -18,6 +18,21 @@ public class UI
         _builderLabel = BuilderLabel;
     }
 
+    public void UI_Init_Unit(SO_Unit unit, GameObject unitPanel)
+    {
+        TMP_Text[] texts = unitPanel.GetComponentsInChildren<TMP_Text>();
+
+        foreach (var text in texts)
+        {
+            if (text.CompareTag("UnitDamage"))
+                text.text = unit.UnitDamage.ToString();
+            else if (text.CompareTag("UnitWheatPrice"))
+                text.text = unit.WheatPrice.ToString();
+            else if (text.CompareTag("UnitGoldPrice"))
+                text.text = unit.GoldPrice.ToString();
+        }
+    }
+
     public void UI_UpdateTab(SettlementLogic SettlementLogic, SO_Unit so_Farmer, SO_Unit so_Warrior, SO_Unit so_Builder)
     {
         _wheatLabel.text = SettlementLogic.WheatCount.ToString();

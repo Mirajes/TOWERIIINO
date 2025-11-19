@@ -75,6 +75,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _warriorLabel;
     [SerializeField] private TMP_Text _builderLabel;
 
+    [SerializeField] private GameObject _farmerPanel;
+    [SerializeField] private GameObject _warriorPanel;
+    [SerializeField] private GameObject _builderPanel;
+
     [SerializeField] private GameObject _endScreen;
     private IEnumerator UI_Updater()
     {
@@ -132,6 +136,9 @@ public class GameManager : MonoBehaviour
         GameEND += OnGameEND;
 
         _UI.Init_UI(_wheatLabel, _goldLabel, _farmerLabel, _warriorLabel, _builderLabel);
+        _UI.UI_Init_Unit(_farmerUnit, _farmerPanel);
+        _UI.UI_Init_Unit(_warriorUnit, _warriorPanel);
+        _UI.UI_Init_Unit(_builderUnit, _builderPanel);
 
         _settlementLogic.InitUnit(_warriorUnit, _starterWarriors);
         _settlementLogic.InitUnit(_farmerUnit, _starterFarmers);
