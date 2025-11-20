@@ -40,13 +40,15 @@ public class GameManager : MonoBehaviour
     private void OnGameEND()
     {
         _isDead = true;
+        _scoreTMP.text = $"Score: {_score}";
+        _killsTMP.text = $"Killed enemies: {_enemiesKilled}";
         _endScreen.SetActive(true);
         StopAllCoroutines();
     }
 
     public void InitGame()
     {
-        StopAllCoroutines();
+        _isDead = false;
 
         _settlementLogic.InitUnit(_warriorUnit, _starterWarriors);
         _settlementLogic.InitUnit(_farmerUnit, _starterFarmers);
@@ -97,7 +99,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _warriorPanel;
     [SerializeField] private GameObject _builderPanel;
 
+    [Header("EndScreen")]
     [SerializeField] private GameObject _endScreen;
+    [SerializeField] private TMP_Text _scoreTMP;
+    [SerializeField] private TMP_Text _killsTMP;
     private IEnumerator UI_Updater()
     {
         while (!_isDead)
@@ -121,6 +126,7 @@ public class GameManager : MonoBehaviour
     {
         _settlementLogic.HireUnit(so_unit);
         _UI.UI_UpdateTab(_settlementLogic, _farmerUnit, _warriorUnit, _builderUnit);
+        SoundManager.Instance?.PlaySound("ButtonClick");
     }
     #endregion
 
@@ -194,15 +200,13 @@ public class GameManager : MonoBehaviour
     {
         _input.actions["ChangeStatement"].performed -= _settlementLogic.ChangeStatement;
         _input.actions["SetPause"].performed -= SetPause;
-        
-        EnemyLogic.EnemyDie -= OnEnemyDie;
-        SettlementLogic.UnitHit -= _settlementLogic.ExchangeUnitEnemy;
-        GameEND -= OnGameEND;
     }
 
     private void OnDestroy()
     {
-
+        EnemyLogic.EnemyDie -= OnEnemyDie;
+        SettlementLogic.UnitHit -= _settlementLogic.ExchangeUnitEnemy;
+        GameEND -= OnGameEND;
     }
 
 }

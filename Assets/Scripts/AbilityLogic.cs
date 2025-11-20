@@ -42,6 +42,7 @@ public abstract class AbilityLogic : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse1))
         {
             Destroy(gameObject);
+            SoundManager.Instance?.PlaySound("ShootArrows");
             GameManager.ChangeAbilityDebounce();
         }
 

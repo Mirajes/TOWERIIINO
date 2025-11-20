@@ -29,6 +29,7 @@ public abstract class EnemyLogic : MonoBehaviour
     public virtual void EnemyDeath(SO_Enemy EnemyData)
     {
         EnemyDie?.Invoke(EnemyData.GoldReward, EnemyData.ScoreReward);
+        SoundManager.Instance?.PlaySound("EnemyDeath");
         Destroy(gameObject);
     }
 

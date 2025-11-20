@@ -203,6 +203,7 @@ public class SettlementLogic
                 #endregion
 
                 CollectWheat(_wheatMultiplier);
+                SoundManager.Instance?.PlaySound("CollectWheat");
                 debounce = false;
                 yield return null;
             } else
@@ -232,6 +233,7 @@ public class SettlementLogic
                     time += Time.deltaTime;
                 }
 
+                SoundManager.Instance?.PlaySound("EatWheat");
                 RemoveWheat(CountRawWheat(), 1f);
 
                 debounce = false;
